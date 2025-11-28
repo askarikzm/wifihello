@@ -1,0 +1,12 @@
+[project]
+name = "wancom-network-service"
+version = "0.1.0"
+description = "OLT/ONU integration API"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi==0.115.0",
+  "uvicorn[standard]==0.30.0",
+  "httpx==0.27.0",
+  "asyncssh==2.14.2",
+  "pysnmp==7.1.10"
+]
