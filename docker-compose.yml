@@ -8,7 +8,16 @@ services:
     env_file: .env
     ports:
       - "9000:9000"
+    depends_on:
+      - network-service
+      - radius-service
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:9000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   network-service:
     build:
@@ -18,12 +27,40 @@ services:
     ports:
       - "9100:9100"
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9100/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  radius-service:
+    build:
+      context: ./radius-service
+      dockerfile: Dockerfile
+    env_file: .env
+    ports:
+      - "1812:1812/udp"
+      - "1813:1813/udp"
+      - "9200:9200"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    env_file: .env
+      args:
+        - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+        - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+        - NEXT_PUBLIC_API_BASE=${NEXT_PUBLIC_API_BASE}
+    environment:
+      - PORT=3000
     depends_on:
       - backend
     ports:
@@ -31,41 +68,66 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: nginx:1.27-alpine
-    depends_on:
-      - frontend
-      - backend
-    volumes:
-      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./infra/certs:/etc/letsencrypt
+    image: nginx:alpine
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./infra/certs:/etc/nginx/certs:ro
+    depends_on:
+      - frontend
+      - backend
     restart: unless-stopped
 
   prometheus:
     image: prom/prometheus:v2.54.0
     volumes:
       - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
     ports:
-      - "9090:9090"
+      - "9190:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+    restart: unless-stopped
 
   grafana:
     image: grafana/grafana:11.1.0
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
     volumes:
       - grafana-data:/var/lib/grafana
     ports:
-      - "3001:3000"
+      - "3200:3000"
+    depends_on:
+      - prometheus
+      - loki
+    restart: unless-stopped
 
   loki:
     image: grafana/loki:3.0.0
     command: ["-config.file=/etc/loki/local-config.yaml"]
     volumes:
       - ./infra/loki/local-config.yaml:/etc/loki/local-config.yaml:ro
+      - loki-data:/loki
     ports:
       - "3101:3100"
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
 
 volumes:
   grafana-data:
+  prometheus-data:
+  loki-data:
+  redis-data:

@@ -1,46 +1,100 @@
+# WANCOM ISP Customer Portal - Copilot Instructions
 
-- [x] Verify that the copilot-instructions.md file in the .github directory is created.
+## Project Overview
+Multi-service monorepo for ISP operations including customer portal, billing, payments, RADIUS AAA, and OLT/ONU management.
 
-- [x] Clarify Project Requirements
-  - Ask for project type, language, and frameworks if not specified. Skip if already provided.
+## Tech Stack
+- **Backend**: NestJS 10+ with TypeScript, Supabase Auth + PostgreSQL
+- **Frontend**: Next.js 15 App Router, TailwindCSS, ShadCN components
+- **Network Service**: Python FastAPI for OLT/ONU management
+- **RADIUS Service**: Python with pyrad for AAA
+- **Database**: Supabase (PostgreSQL with RLS)
+- **Monitoring**: Prometheus, Grafana, Loki
 
-- [x] Scaffold the Project
-  - Ensure that the previous step has been marked as completed.
-  - Call project setup tool with projectType parameter.
-  - Run scaffolding command to create project files and folders.
-  - Use '.' as the working directory.
-  - If no appropriate projectType is available, search documentation using available tools.
-  - Otherwise, create the project structure manually using available file creation tools.
+## Code Standards
 
-- [x] Customize the Project
-  - Verify that all previous steps have been completed successfully and you have marked the step as completed.
-  - Develop a plan to modify codebase according to user requirements.
-  - Apply modifications using appropriate tools and user-provided references.
-  - Skip this step for "Hello World" projects.
+### TypeScript/NestJS
+- Use strict TypeScript with proper typing
+- Follow NestJS module structure (controller, service, module, dto)
+- Use ConfigService for environment variables
+- Apply guards for authentication (@UseGuards(SupabaseJwtGuard))
+- Use Pino logger for structured logging
 
-- [x] Install Required Extensions
-  - ONLY install extensions provided mentioned in the get_project_setup_info. Skip this step otherwise and mark as completed.
+### Next.js
+- Use App Router conventions
+- Server components by default, 'use client' only when needed
+- Use createSupabaseServerClient for server-side auth
+- Use createSupabaseBrowserClient for client components
 
-- [x] Compile the Project
-  - Verify that all previous steps have been completed.
-  - Install any missing dependencies.
-  - Run diagnostics and resolve any issues.
-  - Check for markdown files in project folder for relevant instructions on how to do this.
+### Python
+- Follow PEP 8 style guide
+- Use type hints
+- Use structlog for logging
+- Use async/await for I/O operations
 
-- [x] Create and Run Task
-  - Verify that all previous steps have been completed.
-  - Check https://code.visualstudio.com/docs/debugtest/tasks to determine if the project needs a task. If so, use the create_and_run_task to create and launch a task based on package.json, README.md, and project structure.
-  - Skip this step otherwise.
+## Key Directories
+```
+backend/src/
+  ├── billing/      # Invoice generation, packages
+  ├── payment/      # Gateway integrations (PayFast, JazzCash, Easypaisa)
+  ├── notification/ # SMS/Email notifications
+  ├── support/      # Ticket system
+  ├── admin/        # Admin dashboard endpoints
+  └── network/      # OLT/ONU proxy
 
-- [x] Launch the Project
-  - Verify that all previous steps have been completed.
-  - Prompt user for debug mode, launch only if confirmed.
+frontend/app/
+  ├── dashboard/    # Customer dashboard
+  ├── payments/     # Payment flow
+  ├── support/      # Support tickets
+  └── admin/        # Admin portal
 
-- [x] Ensure Documentation is Complete
-  - Verify that all previous steps have been completed.
-  - Verify that README.md and the copilot-instructions.md file in the .github directory exists and contains current project information.
-  - Clean up the copilot-instructions.md file in the .github directory by removing all HTML comments.
+network-service/app/
+  └── drivers/      # OLT vendor drivers
 
-- Work through each checklist item systematically.
-- Keep communication concise and focused.
-- Follow development best practices.
+radius-service/app/
+  └── handlers.py   # RADIUS packet handlers
+```
+
+## Development Commands
+```bash
+# Backend
+cd backend && npm run start:dev
+
+# Frontend
+cd frontend && npm run dev
+
+# Network Service
+cd network-service && uvicorn app.main:app --reload
+
+# Full stack
+docker compose up --build
+```
+
+## Environment Variables
+See `.env.example` for required configuration:
+- SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
+- Payment gateway credentials (PAYFAST_*, JAZZCASH_*, EASYPAISA_*)
+- SMS/Email configuration
+- Network service API key
+
+## Testing
+- Backend: `npm run test` (Jest)
+- Frontend: `npm run test` (Jest + React Testing Library)
+- Python: `pytest`
+
+## Important Patterns
+
+### Payment Processing
+- All webhooks verified via HMAC signatures
+- Idempotency enforced via unique constraints
+- Audit logging for all payment events
+
+### RADIUS Authentication
+- PAP/CHAP support
+- Speed profiles from packages table
+- Suspension check before auth
+
+### OLT Integration
+- Vendor-agnostic driver interface
+- Real SSH commands for each vendor
+- Caching for ONU status queries

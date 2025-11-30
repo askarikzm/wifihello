@@ -1,4 +1,4 @@
-// File: /home/bilal/projects/wancom/frontend/app/api/proxy/usage/route.ts
+// File: /var/www/wancom/frontend/app/api/proxy/usage/route.ts
 import * as entry from '../../../../../../app/api/proxy/usage/route.js'
 import type { NextRequest } from 'next/server.js'
 

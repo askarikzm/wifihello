@@ -1,4 +1,4 @@
-// File: /home/bilal/projects/wancom/frontend/app/login/page.tsx
+// File: /var/www/wancom/frontend/app/login/page.tsx
 import * as entry from '../../../../app/login/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
@@ -21,7 +21,6 @@ checkFields<Diff<{
   generateMetadata?: Function
   viewport?: any
   generateViewport?: Function
-  experimental_ppr?: boolean
   
 }, TEntry, ''>>()
 

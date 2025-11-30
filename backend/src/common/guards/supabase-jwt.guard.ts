@@ -3,12 +3,16 @@ import { Request } from 'express';
 
 import { SupabaseJwtService } from '../../auth/supabase-jwt.service';
 
+interface AuthenticatedRequest extends Request {
+  user?: any;
+}
+
 @Injectable()
 export class SupabaseJwtGuard implements CanActivate {
   constructor(private readonly supabaseJwt: SupabaseJwtService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest<Request>();
+    const request = context.switchToHttp().getRequest<AuthenticatedRequest>();
     const token = this.extractBearer(request);
     if (!token) {
       throw new UnauthorizedException('Missing authorization header');

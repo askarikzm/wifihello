@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/card';
 import { UsageSparkline } from '@/components/usage-sparkline';
 import { InvoiceList } from '@/components/invoice-list';
+import { NetworkStatusCard } from '@/components/network-status-card';
 
 export function DashboardShell({
   invoices,
@@ -16,10 +17,11 @@ export function DashboardShell({
         <p className="text-sm text-slate-600">Track usage, invoices, and payments in one place.</p>
       </section>
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <NetworkStatusCard />
         <Card>
           <UsageSparkline />
         </Card>
-        <Card className="md:col-span-2">
+        <Card className="xl:col-span-1 md:col-span-2">
           <InvoiceList invoices={invoices} />
         </Card>
       </section>

@@ -1,9 +1,17 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
   "/api/proxy/usage/route": "app/api/proxy/usage/route.js",
+  "/dashboard/page": "app/dashboard/page.js",
   "/invoices/page": "app/invoices/page.js",
   "/login/page": "app/login/page.js",
-  "/page": "app/page.js",
+  "/usage/page": "app/usage/page.js",
   "/payments/page": "app/payments/page.js",
-  "/usage/page": "app/usage/page.js"
+  "/page": "app/page.js",
+  "/support/page": "app/support/page.js",
+  "/admin/finance/page": "app/admin/finance/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/(public)/page": "app/(public)/page.js",
+  "/admin/noc/page": "app/admin/noc/page.js",
+  "/admin/tickets/page": "app/admin/tickets/page.js",
+  "/admin/subscribers/page": "app/admin/subscribers/page.js"
 }

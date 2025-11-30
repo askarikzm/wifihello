@@ -2,15 +2,17 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { json } from 'express';
 import helmet from 'helmet';
+import { Logger as PinoLogger } from 'nestjs-pino';
 
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
-  app.useLogger(app.get(Logger));
+  app.useLogger(app.get(PinoLogger));
   app.use(helmet());
   app.use(json({ limit: '2mb' }));
   app.setGlobalPrefix('api');
+  app.enableCors();
 
   const port = process.env.PORT ?? 9000;
   await app.listen(port);

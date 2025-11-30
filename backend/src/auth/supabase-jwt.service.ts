@@ -1,30 +1,50 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
-import { createRemoteJWKSet, jwtVerify, JWTVerifyResult } from 'jose';
+import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
-import configuration from '../config/configuration';
+interface SupabaseUser {
+  id: string;
+  aud: string;
+  role: string;
+  email: string;
+  email_confirmed_at?: string;
+  phone?: string;
+  app_metadata?: Record<string, unknown>;
+  user_metadata?: Record<string, unknown>;
+}
 
 @Injectable()
 export class SupabaseJwtService {
-  private readonly jwks: ReturnType<typeof createRemoteJWKSet>;
-  private readonly audience: string;
+  private readonly logger = new Logger(SupabaseJwtService.name);
+  private readonly supabaseUrl: string;
+  private readonly supabaseAnonKey: string;
 
-  constructor(
-    @Inject(configuration.KEY)
-    config: ConfigType<typeof configuration>,
-  ) {
-    this.jwks = createRemoteJWKSet(new URL(config.supabase.jwksUrl));
-    this.audience = config.supabase.audience;
+  constructor(private configService: ConfigService) {
+    this.supabaseUrl = this.configService.get<string>('SUPABASE_URL') || '';
+    this.supabaseAnonKey = this.configService.get<string>('SUPABASE_ANON_KEY') || '';
   }
 
-  async verify(token: string): Promise<JWTVerifyResult['payload']> {
+  async verify(token: string): Promise<SupabaseUser> {
     try {
-      const { payload } = await jwtVerify(token, this.jwks, {
-        issuer: `${process.env.SUPABASE_URL}/auth/v1`,
-        audience: this.audience,
+      const response = await fetch(`${this.supabaseUrl}/auth/v1/user`, {
+        headers: {
+          apikey: this.supabaseAnonKey,
+          Authorization: `Bearer ${token}`,
+        },
       });
-      return payload;
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        this.logger.warn(`Token verification failed: ${response.status} - ${errorText}`);
+        throw new UnauthorizedException('Invalid Supabase token');
+      }
+
+      const user: SupabaseUser = await response.json();
+      return user;
     } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      this.logger.error('Token verification error:', error);
       throw new UnauthorizedException('Invalid Supabase token');
     }
   }
