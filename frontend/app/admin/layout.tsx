@@ -15,12 +15,14 @@ import {
   BarChart3,
   LogOut,
   Menu,
-  X
+  X,
+  ShieldCheck
 } from 'lucide-react';
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/subscribers', label: 'Subscribers', icon: Users },
+  { href: '/admin/kyc', label: 'KYC / Verisys', icon: ShieldCheck },
   { href: '/admin/noc', label: 'NOC / Network', icon: Network },
   { href: '/admin/finance', label: 'Finance', icon: CreditCard },
   { href: '/admin/tickets', label: 'Support Tickets', icon: Ticket },

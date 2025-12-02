@@ -41,9 +41,51 @@ export class AdminService {
     await this.verifyAdminRole(userId);
     const client = this.supabase.getClient();
 
-    const [revenue, subscribers, overdue, recentPayments] = await Promise.all([
-      client.rpc('revenue_summary', { p_days: 30 }),
-      client.rpc('active_subscribers_count'),
+    // Try RPC functions, fallback to direct queries
+    let revenue = { total: 0, count: 0 };
+    let activeSubscribers = 0;
+
+    try {
+      const [revenueResult, subscribersResult] = await Promise.all([
+        client.rpc('revenue_summary', { p_days: 30 }),
+        client.rpc('active_subscribers_count'),
+      ]);
+
+      if (!revenueResult.error && revenueResult.data) {
+        revenue = revenueResult.data;
+      }
+      if (!subscribersResult.error && subscribersResult.data) {
+        activeSubscribers = subscribersResult.data;
+      }
+    } catch (e) {
+      this.logger.warn('RPC functions not available, using direct queries');
+    }
+
+    // Fallback queries if RPC failed
+    if (revenue.total === 0) {
+      const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+      const { data: payments } = await client
+        .from('payments')
+        .select('amount')
+        .eq('status', 'success')
+        .gte('completed_at', thirtyDaysAgo);
+
+      revenue = {
+        total: payments?.reduce((sum, p) => sum + (p.amount || 0), 0) || 0,
+        count: payments?.length || 0,
+      };
+    }
+
+    if (activeSubscribers === 0) {
+      const { count } = await client
+        .from('customers')
+        .select('id', { count: 'exact' })
+        .eq('status', 'active');
+
+      activeSubscribers = count || 0;
+    }
+
+    const [overdue, recentPayments] = await Promise.all([
       client.from('invoices').select('id', { count: 'exact' }).eq('status', 'overdue'),
       client
         .from('payments')
@@ -54,8 +96,8 @@ export class AdminService {
     ]);
 
     return {
-      revenue: revenue.data || { total: 0, count: 0 },
-      activeSubscribers: subscribers.data || 0,
+      revenue,
+      activeSubscribers,
       overdueInvoices: overdue.count || 0,
       recentPayments: recentPayments.data || [],
     };
@@ -68,17 +110,62 @@ export class AdminService {
     const start = startDate || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
     const end = endDate || new Date().toISOString().split('T')[0];
 
-    const { data, error } = await client.rpc('revenue_summary_range', {
-      p_start_date: start,
-      p_end_date: end,
-    });
+    try {
+      const { data, error } = await client.rpc('revenue_summary_range', {
+        p_start_date: start,
+        p_end_date: end,
+      });
 
-    if (error) {
-      this.logger.error('Failed to get revenue summary', error);
-      throw error;
+      if (!error) {
+        return data;
+      }
+
+      this.logger.warn('revenue_summary_range RPC not available, using direct query');
+    } catch (e) {
+      this.logger.warn('revenue_summary_range RPC failed, using direct query', e);
     }
 
-    return data;
+    // Fallback to direct query
+    const { data: payments, error: queryError } = await client
+      .from('payments')
+      .select('amount, gateway, completed_at')
+      .eq('status', 'success')
+      .gte('completed_at', start)
+      .lte('completed_at', end);
+
+    if (queryError) {
+      this.logger.error('Failed to get revenue summary', queryError);
+      return { total: 0, count: 0, by_gateway: {}, by_day: [] };
+    }
+
+    const total = payments?.reduce((sum, p) => sum + (p.amount || 0), 0) || 0;
+    const count = payments?.length || 0;
+
+    const byGateway: Record<string, number> = {};
+    const byDay: Record<string, { day: string; amount: number; count: number }> = {};
+
+    for (const payment of payments || []) {
+      // Aggregate by gateway
+      const gateway = payment.gateway || 'unknown';
+      byGateway[gateway] = (byGateway[gateway] || 0) + (payment.amount || 0);
+
+      // Aggregate by day
+      const day = payment.completed_at?.split('T')[0];
+      if (day) {
+        if (!byDay[day]) {
+          byDay[day] = { day, amount: 0, count: 0 };
+        }
+        byDay[day].amount += payment.amount || 0;
+        byDay[day].count += 1;
+      }
+    }
+
+    return {
+      total,
+      count,
+      by_gateway: byGateway,
+      by_day: Object.values(byDay).sort((a, b) => a.day.localeCompare(b.day)),
+    };
   }
 
   async getSubscribers(userId: string, options: PaginationOptions) {
@@ -285,16 +372,65 @@ export class AdminService {
     await this.verifyAdminRole(userId);
     const client = this.supabase.getClient();
 
-    const { data, error } = await client.rpc('daily_collections', {
-      p_start_date: startDate || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      p_end_date: endDate || new Date().toISOString().split('T')[0],
-    });
+    const start = startDate || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    const end = endDate || new Date().toISOString().split('T')[0];
 
-    if (error) {
-      throw error;
+    try {
+      // Try RPC function first
+      const { data, error } = await client.rpc('daily_collections', {
+        p_start_date: start,
+        p_end_date: end,
+      });
+
+      if (!error) {
+        return data || [];
+      }
+
+      this.logger.warn('daily_collections RPC not available, using direct query');
+    } catch (e) {
+      this.logger.warn('daily_collections RPC failed, using direct query', e);
     }
 
-    return data;
+    // Fallback to direct query if RPC is not available
+    const { data: payments, error: queryError } = await client
+      .from('payments')
+      .select('amount, gateway, completed_at')
+      .eq('status', 'success')
+      .gte('completed_at', start)
+      .lte('completed_at', end);
+
+    if (queryError) {
+      this.logger.error('Failed to fetch daily collections', queryError);
+      return [];
+    }
+
+    // Aggregate by day
+    const byDay: Record<string, { total_amount: number; payment_count: number; payfast_amount: number; jazzcash_amount: number; easypaisa_amount: number }> = {};
+
+    for (const payment of payments || []) {
+      const day = payment.completed_at?.split('T')[0];
+      if (!day) continue;
+
+      if (!byDay[day]) {
+        byDay[day] = { total_amount: 0, payment_count: 0, payfast_amount: 0, jazzcash_amount: 0, easypaisa_amount: 0 };
+      }
+
+      byDay[day].total_amount += payment.amount || 0;
+      byDay[day].payment_count += 1;
+
+      if (payment.gateway === 'payfast') {
+        byDay[day].payfast_amount += payment.amount || 0;
+      } else if (payment.gateway === 'jazzcash') {
+        byDay[day].jazzcash_amount += payment.amount || 0;
+      } else if (payment.gateway === 'easypaisa') {
+        byDay[day].easypaisa_amount += payment.amount || 0;
+      }
+    }
+
+    return Object.entries(byDay).map(([date, data]) => ({
+      collection_date: date,
+      ...data,
+    })).sort((a, b) => a.collection_date.localeCompare(b.collection_date));
   }
 
   async getOverdueInvoices(userId: string, options: PaginationOptions) {

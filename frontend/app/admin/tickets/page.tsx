@@ -66,7 +66,7 @@ export default function TicketsPage() {
         if (priorityFilter !== 'all') params.append('priority', priorityFilter);
         if (search) params.append('search', search);
 
-        const res = await fetch(`${baseUrl}/support/tickets?${params}`, {
+        const res = await fetch(`${baseUrl}/api/support/tickets?${params}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         
@@ -92,7 +92,7 @@ export default function TicketsPage() {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE;
 
     try {
-      const res = await fetch(`${baseUrl}/support/tickets/${ticketId}/messages`, {
+      const res = await fetch(`${baseUrl}/api/support/tickets/${ticketId}/messages`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       
@@ -120,7 +120,7 @@ export default function TicketsPage() {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE;
 
     try {
-      const res = await fetch(`${baseUrl}/support/tickets/${selectedTicket.id}/messages`, {
+      const res = await fetch(`${baseUrl}/api/support/tickets/${selectedTicket.id}/messages`, {
         method: 'POST',
         headers: { 
           Authorization: `Bearer ${token}`,
@@ -146,7 +146,7 @@ export default function TicketsPage() {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE;
 
     try {
-      await fetch(`${baseUrl}/support/tickets/${ticketId}`, {
+      await fetch(`${baseUrl}/api/support/tickets/${ticketId}`, {
         method: 'PATCH',
         headers: { 
           Authorization: `Bearer ${token}`,

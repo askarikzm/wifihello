@@ -69,7 +69,7 @@ export default function NOCDashboard() {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE;
 
     try {
-      const res = await fetch(`${baseUrl}/admin/dashboard/noc`, {
+      const res = await fetch(`${baseUrl}/api/admin/dashboard/noc`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       

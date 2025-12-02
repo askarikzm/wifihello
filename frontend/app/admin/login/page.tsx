@@ -27,13 +27,24 @@ export default function AdminLoginPage() {
       return;
     }
 
-    // Check if user has admin role
-    const role = data.user?.user_metadata?.role;
-    if (!['admin', 'noc', 'finance', 'support', 'superadmin'].includes(role)) {
-      setError('Access denied. Admin credentials required.');
-      await supabase.auth.signOut();
-      setLoading(false);
-      return;
+    // Check if user has admin role in admin_roles table
+    if (data.user) {
+      const { data: adminRole, error: roleError } = await supabase
+        .from('admin_roles')
+        .select('role')
+        .eq('user_id', data.user.id)
+        .maybeSingle();
+
+      if (roleError || !adminRole) {
+        // Also check user_metadata as fallback
+        const metadataRole = data.user.user_metadata?.role;
+        if (!['admin', 'noc', 'finance', 'support', 'superadmin', 'supervisor'].includes(metadataRole)) {
+          setError('Access denied. You do not have admin privileges. Please use the Customer Portal.');
+          await supabase.auth.signOut();
+          setLoading(false);
+          return;
+        }
+      }
     }
     
     router.push('/admin');
@@ -57,12 +68,24 @@ export default function AdminLoginPage() {
       return;
     }
 
-    const role = data.user?.user_metadata?.role;
-    if (!['admin', 'noc', 'finance', 'support', 'superadmin'].includes(role)) {
-      setError('Admin account role not configured. Set role in user_metadata.');
-      await supabase.auth.signOut();
-      setLoading(false);
-      return;
+    // Check admin_roles table first
+    if (data.user) {
+      const { data: adminRole } = await supabase
+        .from('admin_roles')
+        .select('role')
+        .eq('user_id', data.user.id)
+        .maybeSingle();
+
+      if (!adminRole) {
+        // Fallback to user_metadata
+        const metadataRole = data.user.user_metadata?.role;
+        if (!['admin', 'noc', 'finance', 'support', 'superadmin', 'supervisor'].includes(metadataRole)) {
+          setError('Admin account role not configured. Add user to admin_roles table or set role in user_metadata.');
+          await supabase.auth.signOut();
+          setLoading(false);
+          return;
+        }
+      }
     }
     
     router.push('/admin');

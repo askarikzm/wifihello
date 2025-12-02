@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     env_file: .env
     ports:
-      - "9000:9000"
+      - "127.0.0.1:9000:9000"
     depends_on:
       - network-service
       - radius-service
@@ -25,7 +25,7 @@ services:
       dockerfile: Dockerfile
     env_file: .env
     ports:
-      - "9100:9100"
+      - "127.0.0.1:9100:9100"
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9100/health"]
@@ -40,9 +40,9 @@ services:
       dockerfile: Dockerfile
     env_file: .env
     ports:
-      - "1812:1812/udp"
-      - "1813:1813/udp"
-      - "9200:9200"
+      - "127.0.0.1:1812:1812/udp"
+      - "127.0.0.1:1813:1813/udp"
+      - "127.0.0.1:9200:9200"
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9200/health"]
@@ -61,24 +61,28 @@ services:
         - NEXT_PUBLIC_API_BASE=${NEXT_PUBLIC_API_BASE}
     environment:
       - PORT=3000
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - NEXT_PUBLIC_API_BASE=${NEXT_PUBLIC_API_BASE}
     depends_on:
       - backend
     ports:
-      - "3100:3000"
+      - "127.0.0.1:3100:3000"
     restart: unless-stopped
 
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./infra/certs:/etc/nginx/certs:ro
-    depends_on:
-      - frontend
-      - backend
-    restart: unless-stopped
+  # nginx service disabled - using system nginx as reverse proxy
+  # nginx:
+  #   image: nginx:alpine
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+  #     - ./infra/certs:/etc/nginx/certs:ro
+  #   depends_on:
+  #     - frontend
+  #     - backend
+  #   restart: unless-stopped
 
   prometheus:
     image: prom/prometheus:v2.54.0
@@ -86,7 +90,7 @@ services:
       - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
     ports:
-      - "9190:9090"
+      - "127.0.0.1:9190:9090"
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -101,7 +105,7 @@ services:
     volumes:
       - grafana-data:/var/lib/grafana
     ports:
-      - "3200:3000"
+      - "127.0.0.1:3200:3000"
     depends_on:
       - prometheus
       - loki
@@ -114,13 +118,13 @@ services:
       - ./infra/loki/local-config.yaml:/etc/loki/local-config.yaml:ro
       - loki-data:/loki
     ports:
-      - "3101:3100"
+      - "127.0.0.1:3101:3100"
     restart: unless-stopped
 
   redis:
     image: redis:7-alpine
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6380:6379"
     volumes:
       - redis-data:/data
     command: redis-server --appendonly yes

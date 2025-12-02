@@ -19,12 +19,29 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
     
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
       setError(error.message);
       setLoading(false);
       return;
     }
+
+    // Check if user is an admin - admins should use admin portal
+    if (data.user) {
+      const { data: adminRole } = await supabase
+        .from('admin_roles')
+        .select('role')
+        .eq('user_id', data.user.id)
+        .maybeSingle();
+
+      if (adminRole) {
+        setError('Admin users should use the Admin Portal to login.');
+        await supabase.auth.signOut();
+        setLoading(false);
+        return;
+      }
+    }
+
     router.push('/dashboard');
   }
 
@@ -35,7 +52,7 @@ export default function LoginPage() {
     setEmail('demo@wancom.pk');
     setPassword('demo123456');
     
-    const { error } = await supabase.auth.signInWithPassword({ 
+    const { data, error } = await supabase.auth.signInWithPassword({ 
       email: 'demo@wancom.pk', 
       password: 'demo123456' 
     });
@@ -44,6 +61,23 @@ export default function LoginPage() {
       setLoading(false);
       return;
     }
+
+    // Check if user is an admin - admins should use admin portal
+    if (data.user) {
+      const { data: adminRole } = await supabase
+        .from('admin_roles')
+        .select('role')
+        .eq('user_id', data.user.id)
+        .maybeSingle();
+
+      if (adminRole) {
+        setError('Admin users should use the Admin Portal to login.');
+        await supabase.auth.signOut();
+        setLoading(false);
+        return;
+      }
+    }
+
     router.push('/dashboard');
   }
 

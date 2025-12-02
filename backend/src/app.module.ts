@@ -13,6 +13,7 @@ import { SupportModule } from './support/support.module';
 import { NotificationModule } from './notification/notification.module';
 import { HealthModule } from './health/health.module';
 import { DatabaseModule } from './database/database.module';
+import { VerisysModule } from './verisys/verisys.module';
 import configuration from './config/configuration';
 import configurationValidation from './config/validation';
 
@@ -47,6 +48,7 @@ import configurationValidation from './config/validation';
     SupportModule,
     NotificationModule,
     HealthModule,
+    VerisysModule, // Optional: NADRA KYC verification module
   ],
 })
 export class AppModule {}

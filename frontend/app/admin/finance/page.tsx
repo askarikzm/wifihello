@@ -69,10 +69,10 @@ export default function FinanceDashboard() {
 
       try {
         // Fetch finance dashboard
-        const financeRes = await fetch(`${baseUrl}/admin/dashboard/finance?period=${period}`, {
+        const financeRes = await fetch(`${baseUrl}/api/admin/dashboard/finance?period=${period}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        
+
         if (financeRes.ok) {
           const data = await financeRes.json();
           setStats({
@@ -85,18 +85,33 @@ export default function FinanceDashboard() {
             collectionRate: data.collectionRate || 0,
             growthPercent: data.growthPercent || 0,
           });
-          setPayments(data.recentPayments || []);
-          setDailyCollections(data.dailyCollections || []);
+          setPayments(Array.isArray(data.recentPayments) ? data.recentPayments : []);
+          setDailyCollections(Array.isArray(data.dailyCollections) ? data.dailyCollections : []);
+        } else {
+          // Set default values on error
+          setStats({
+            todayCollections: 0,
+            weekCollections: 0,
+            monthCollections: 0,
+            yearCollections: 0,
+            outstanding: 0,
+            averagePaymentTime: '3 days',
+            collectionRate: 0,
+            growthPercent: 0,
+          });
+          setPayments([]);
+          setDailyCollections([]);
         }
 
         // Fetch overdue invoices
-        const overdueRes = await fetch(`${baseUrl}/admin/invoices/overdue`, {
+        const overdueRes = await fetch(`${baseUrl}/api/admin/invoices/overdue`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         
         if (overdueRes.ok) {
           const overdueData = await overdueRes.json();
-          setOverdueInvoices(overdueData || []);
+          // Handle both array and paginated response formats
+          setOverdueInvoices(Array.isArray(overdueData) ? overdueData : (overdueData.data || []));
         }
       } catch (error) {
         console.error('Failed to fetch finance data:', error);

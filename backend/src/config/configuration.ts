@@ -94,4 +94,23 @@ export default () => ({
     ttl: Number(process.env.RATE_LIMIT_TTL ?? 60),
     limit: Number(process.env.RATE_LIMIT_MAX ?? 100),
   },
+
+  // NADRA Verisys KYC Configuration (Optional Module)
+  verisys: {
+    baseUrl: process.env.VERISYS_BASE_URL ?? '',
+    clientId: process.env.VERISYS_CLIENT_ID ?? '',
+    clientSecret: process.env.VERISYS_CLIENT_SECRET ?? '',
+    timeoutMs: Number(process.env.VERISYS_TIMEOUT_MS ?? 10000),
+    verifyEndpoint: process.env.VERISYS_VERIFY_ENDPOINT ?? '/cnic/verify',
+    maxRetries: Number(process.env.VERISYS_MAX_RETRIES ?? 2),
+    retryDelayMs: Number(process.env.VERISYS_RETRY_DELAY_MS ?? 1000),
+    maxAttemptsPerDay: Number(process.env.VERISYS_MAX_ATTEMPTS_PER_DAY ?? 3),
+    kycExpiryDays: Number(process.env.KYC_EXPIRY_DAYS ?? 365),
+  },
+  
+  // Feature Flags
+  features: {
+    kycRequiredForActivation: process.env.KYC_REQUIRED_FOR_ACTIVATION === 'true',
+    verisysEnabled: !!process.env.VERISYS_BASE_URL,
+  },
 });

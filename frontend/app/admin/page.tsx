@@ -75,19 +75,19 @@ export default function AdminDashboard() {
 
       try {
         // Fetch revenue dashboard
-        const revenueRes = await fetch(`${baseUrl}/admin/dashboard/revenue`, {
+        const revenueRes = await fetch(`${baseUrl}/api/admin/dashboard/revenue`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const revenueData = revenueRes.ok ? await revenueRes.json() : {};
 
         // Fetch NOC dashboard
-        const nocRes = await fetch(`${baseUrl}/admin/dashboard/noc`, {
+        const nocRes = await fetch(`${baseUrl}/api/admin/dashboard/noc`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const nocData = nocRes.ok ? await nocRes.json() : {};
 
         // Fetch subscribers
-        const subsRes = await fetch(`${baseUrl}/admin/subscribers?limit=5`, {
+        const subsRes = await fetch(`${baseUrl}/api/admin/subscribers?limit=5`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const subsData = subsRes.ok ? await subsRes.json() : { total: 0, data: [] };
@@ -120,14 +120,14 @@ export default function AdminDashboard() {
         });
 
         // Fetch recent payments
-        const paymentsRes = await fetch(`${baseUrl}/admin/dashboard/finance?period=today`, {
+        const paymentsRes = await fetch(`${baseUrl}/api/admin/dashboard/finance?period=today`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const paymentsData = paymentsRes.ok ? await paymentsRes.json() : {};
         setRecentPayments(paymentsData.recentPayments || []);
 
         // Fetch recent tickets
-        const ticketsRes = await fetch(`${baseUrl}/support/tickets?limit=5`, {
+        const ticketsRes = await fetch(`${baseUrl}/api/support/tickets?limit=5`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const ticketsData = ticketsRes.ok ? await ticketsRes.json() : [];
