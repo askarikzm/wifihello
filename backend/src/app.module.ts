@@ -14,6 +14,10 @@ import { NotificationModule } from './notification/notification.module';
 import { HealthModule } from './health/health.module';
 import { DatabaseModule } from './database/database.module';
 import { VerisysModule } from './verisys/verisys.module';
+import { AuditExportModule } from './audit-export/audit-export.module';
+import { CtdisrModule } from './ctdisr/ctdisr.module';
+import { GeoModule } from './geo/geo.module';
+import { InventoryModule } from './inventory/inventory.module';
 import configuration from './config/configuration';
 import configurationValidation from './config/validation';
 
@@ -49,6 +53,10 @@ import configurationValidation from './config/validation';
     NotificationModule,
     HealthModule,
     VerisysModule, // Optional: NADRA KYC verification module
+    AuditExportModule, // PTA Audit Export module for regulatory compliance
+    CtdisrModule, // CTDISR-2025 Compliance Framework
+    GeoModule,
+    InventoryModule,
   ],
 })
 export class AppModule {}

@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -96,7 +96,7 @@ function AdminKycContent() {
   const [status, setStatus] = useState(searchParams.get('status') || 'all');
   const [page, setPage] = useState(parseInt(searchParams.get('page') || '1'));
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams();
@@ -125,11 +125,11 @@ function AdminKycContent() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [search, status, page]);
 
   useEffect(() => {
     fetchData();
-  }, [search, status, page]);
+  }, [fetchData]);
 
   const handleSearch = (value: string) => {
     setSearch(value);

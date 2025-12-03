@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createSupabaseBrowserClient } from '@/lib/supabase-browser-client';
 import { Card } from '@/components/ui/card';
 import { 
@@ -27,21 +27,23 @@ interface NetworkStatus {
 }
 
 export function NetworkStatusCard() {
-  const supabase = createSupabaseBrowserClient();
+  const supabase = useMemo(() => createSupabaseBrowserClient(), []);
   const [status, setStatus] = useState<NetworkStatus | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchStatus = async () => {
+  const fetchStatus = useCallback(async () => {
     const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return;
+    if (!session) {
+      setError('Session unavailable');
+      setLoading(false);
+      setRefreshing(false);
+      return;
+    }
 
     const token = session.access_token;
-    let baseUrl = process.env.NEXT_PUBLIC_API_BASE || '';
-    
-    // Remove trailing /api if present to avoid double /api/api
-    baseUrl = baseUrl.replace(/\/api\/?$/, '');
+    const baseUrl = (process.env.NEXT_PUBLIC_API_BASE || '').replace(/\/api\/?$/, '');
 
     try {
       const res = await fetch(`${baseUrl}/api/network/status`, {
@@ -61,19 +63,19 @@ export function NetworkStatusCard() {
       setLoading(false);
       setRefreshing(false);
     }
-  };
+  }, [supabase]);
 
   useEffect(() => {
     fetchStatus();
     // Auto-refresh every 60 seconds
     const interval = setInterval(fetchStatus, 60000);
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchStatus]);
 
-  const handleRefresh = () => {
+  const handleRefresh = useCallback(() => {
     setRefreshing(true);
     fetchStatus();
-  };
+  }, [fetchStatus]);
 
   const getSignalQuality = (dbm: number) => {
     if (dbm >= -20) return { label: 'Excellent', color: 'text-green-600', bg: 'bg-green-100' };
