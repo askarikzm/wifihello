@@ -1,7 +1,7 @@
 /**
  * PTA Audit Export Module
  * 
- * Automated PTA-compliant audit log export system for WANCOM ISP.
+ * Automated PTA-compliant audit log export system for NetAxis ISP.
  * Supports scheduled and on-demand exports of IPDR, RADIUS, KYC,
  * complaints, and network logs in PTA-required formats.
  * 

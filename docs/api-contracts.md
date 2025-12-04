@@ -27,7 +27,7 @@ Response: session id + redirect url.
 ```
 
 ### POST /payments/webhook
-HMAC header `X-WANCOM-SIGNATURE`. Generic payload:
+HMAC header `X-NetAxis-SIGNATURE`. Generic payload:
 ```json
 { "gateway": "payfast", "event": "payment.completed", "data": { ... } }
 ```

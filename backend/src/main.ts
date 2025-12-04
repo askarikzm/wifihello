@@ -16,7 +16,7 @@ async function bootstrap() {
 
   const port = process.env.PORT ?? 9000;
   await app.listen(port);
-  Logger.log(`WANCOM API listening on port ${port}`);
+  Logger.log(`NetAxis API listening on port ${port}`);
 }
 
 void bootstrap();

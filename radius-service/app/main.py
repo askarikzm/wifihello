@@ -1,4 +1,4 @@
-"""WANCOM RADIUS AAA Service - Main Entry Point"""
+"""NetAxis RADIUS AAA Service - Main Entry Point"""
 import asyncio
 import signal
 import sys
@@ -30,8 +30,8 @@ structlog.configure(
 logger = structlog.get_logger()
 
 
-class WancomRadiusServer(server.Server):
-    """Custom RADIUS server for WANCOM ISP"""
+class NetAxisRadiusServer(server.Server):
+    """Custom RADIUS server for NetAxis ISP"""
     
     def __init__(self, dictionary_path: str = "/usr/share/freeradius/dictionary"):
         # Load RADIUS dictionary
@@ -183,7 +183,7 @@ async def start_health_server():
 
 def main():
     """Main entry point"""
-    logger.info("Starting WANCOM RADIUS AAA Service")
+    logger.info("Starting NetAxis RADIUS AAA Service")
     
     # Create event loop
     loop = asyncio.new_event_loop()
@@ -193,7 +193,7 @@ def main():
     health_runner = loop.run_until_complete(start_health_server())
     
     # Create and start RADIUS server
-    radius_server = WancomRadiusServer()
+    radius_server = NetAxisRadiusServer()
     radius_server.loop = loop
     
     # Handle shutdown signals

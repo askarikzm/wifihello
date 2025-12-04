@@ -1,5 +1,5 @@
 -- ============================================
--- WANCOM ISP Portal - Demo/Seed Data
+-- NetAxis ISP Portal - Demo/Seed Data
 -- Run this AFTER creating the demo user in Auth
 -- ============================================
 
@@ -126,5 +126,5 @@ $$ language plpgsql security definer;
 
 -- ============================================
 -- TO SET UP DEMO USER, RUN:
--- select setup_demo_user('demo@wancom.pk');
+-- select setup_demo_user('demo@netaxis.pk');
 -- ============================================

@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Zero-Trust Access Control Service
+ * NetAxis ISP - CTDISR-2025 Zero-Trust Access Control Service
  */
 
 import { Injectable, Logger, NotFoundException, ForbiddenException } from '@nestjs/common';

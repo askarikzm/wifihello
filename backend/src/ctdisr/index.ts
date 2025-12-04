@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Module Exports
+ * NetAxis ISP - CTDISR-2025 Module Exports
  * Critical Telecom Data & Infrastructure Security Regulations 2025
  * 
  * Comprehensive PTA-compliant security framework export

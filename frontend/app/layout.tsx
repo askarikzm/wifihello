@@ -7,8 +7,8 @@ import { QueryProvider } from '@/providers/query-provider';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  title: 'WANCOM Portal',
-  description: 'Customer dashboard, billing, and payments for WANCOM ISP.',
+  title: 'NetAxis Portal',
+  description: 'Customer dashboard, billing, and payments for NetAxis ISP.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

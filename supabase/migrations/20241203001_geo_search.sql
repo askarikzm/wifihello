@@ -1,5 +1,5 @@
 -- ============================================
--- WANCOM ISP - GEO HIERARCHY & NETWORK SEARCH
+-- NetAxis ISP - GEO HIERARCHY & NETWORK SEARCH
 -- Migration: 20241203001_geo_search.sql
 -- Adds PTA-style regional hierarchy tables, foreign
 -- keys for OLT/ONU assets, and FTS vectors for

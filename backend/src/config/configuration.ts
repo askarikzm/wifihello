@@ -30,9 +30,9 @@ export default () => ({
       sandbox: process.env.EASYPAISA_SANDBOX === 'true',
     },
     webhookSecret: process.env.PAYMENT_WEBHOOK_SECRET ?? '',
-    returnUrl: process.env.PAYMENT_RETURN_URL ?? 'https://portal.wancom.co.za/payments/callback',
-    cancelUrl: process.env.PAYMENT_CANCEL_URL ?? 'https://portal.wancom.co.za/payments/cancelled',
-    notifyUrl: process.env.PAYMENT_NOTIFY_URL ?? 'https://api.wancom.co.za/api/payments/webhook',
+    returnUrl: process.env.PAYMENT_RETURN_URL ?? 'https://portal.netaxis.co.za/payments/callback',
+    cancelUrl: process.env.PAYMENT_CANCEL_URL ?? 'https://portal.netaxis.co.za/payments/cancelled',
+    notifyUrl: process.env.PAYMENT_NOTIFY_URL ?? 'https://api.netaxis.co.za/api/payments/webhook',
   },
   
   // Network/OLT Service Configuration
@@ -52,7 +52,7 @@ export default () => ({
     provider: process.env.SMS_PROVIDER ?? 'clickatell', // clickatell, twilio, bulksms
     apiKey: process.env.SMS_API_KEY ?? '',
     apiUrl: process.env.SMS_API_URL ?? '',
-    senderId: process.env.SMS_SENDER_ID ?? 'WANCOM',
+    senderId: process.env.SMS_SENDER_ID ?? 'NetAxis',
   },
   
   // Email Configuration
@@ -69,17 +69,17 @@ export default () => ({
       apiKey: process.env.SENDGRID_API_KEY ?? '',
     },
     from: {
-      name: process.env.EMAIL_FROM_NAME ?? 'WANCOM ISP',
-      address: process.env.EMAIL_FROM_ADDRESS ?? 'noreply@wancom.co.za',
+      name: process.env.EMAIL_FROM_NAME ?? 'NetAxis ISP',
+      address: process.env.EMAIL_FROM_ADDRESS ?? 'noreply@netaxis.co.za',
     },
   },
   
   // Frontend URLs for email templates
   frontend: {
-    baseUrl: process.env.FRONTEND_URL ?? 'https://portal.wancom.co.za',
-    loginUrl: process.env.FRONTEND_LOGIN_URL ?? 'https://portal.wancom.co.za/login',
-    dashboardUrl: process.env.FRONTEND_DASHBOARD_URL ?? 'https://portal.wancom.co.za/dashboard',
-    paymentUrl: process.env.FRONTEND_PAYMENT_URL ?? 'https://portal.wancom.co.za/payments',
+    baseUrl: process.env.FRONTEND_URL ?? 'https://portal.netaxis.co.za',
+    loginUrl: process.env.FRONTEND_LOGIN_URL ?? 'https://portal.netaxis.co.za/login',
+    dashboardUrl: process.env.FRONTEND_DASHBOARD_URL ?? 'https://portal.netaxis.co.za/dashboard',
+    paymentUrl: process.env.FRONTEND_PAYMENT_URL ?? 'https://portal.netaxis.co.za/payments',
   },
   
   // Monitoring & Alerting

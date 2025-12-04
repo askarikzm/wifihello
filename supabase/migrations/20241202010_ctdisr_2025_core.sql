@@ -1,5 +1,5 @@
 -- ============================================
--- WANCOM ISP - CTDISR-2025 CORE SCHEMA
+-- NetAxis ISP - CTDISR-2025 CORE SCHEMA
 -- Critical Telecom Data & Infrastructure Security Regulations 2025
 -- Migration: 20241202010_ctdisr_2025_core.sql
 -- ============================================

@@ -1,5 +1,5 @@
 -- =====================================================
--- WANCOM ISP - QUICK FIX FOR DEMO
+-- NetAxis ISP - QUICK FIX FOR DEMO
 -- Run this entire script in Supabase SQL Editor
 -- =====================================================
 
@@ -14,7 +14,7 @@ VALUES (
   'f47ac10b-58cc-4372-a567-0e02b2c3d479',
   (SELECT id FROM auth.users LIMIT 1),
   'Ahmed Hassan',
-  'ahmed.hassan@demo.wancom.pk',
+  'ahmed.hassan@demo.netaxis.pk',
   '+92 321 1234567',
   'House 42, Street 7, F-10/3, Islamabad',
   '61101-1234567-8',
@@ -23,7 +23,7 @@ VALUES (
   'HWTC12345678',
   'olt-islamabad-01',
   '0/1/3:5',
-  'ahmed.hassan@wancom',
+  'ahmed.hassan@netaxis',
   '2025-06-15 10:00:00+05',
   '2025-06-15 10:00:00+05',
   NOW()

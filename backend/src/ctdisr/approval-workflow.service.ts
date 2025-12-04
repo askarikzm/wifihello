@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Approval Workflows Service
+ * NetAxis ISP - CTDISR-2025 Approval Workflows Service
  * Handles dual-approval workflows for sensitive operations
  */
 

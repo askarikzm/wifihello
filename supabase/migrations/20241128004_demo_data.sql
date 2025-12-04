@@ -1,5 +1,5 @@
 -- =====================================================
--- WANCOM ISP Customer Portal - Demo Data Migration
+-- NetAxis ISP Customer Portal - Demo Data Migration
 -- Generated: 2024-11-28
 -- Purpose: High-stakes live demo with realistic mock data
 -- SAFE: Only INSERT statements, no destructive operations
@@ -33,7 +33,7 @@ INSERT INTO subscribers (
   'f47ac10b-58cc-4372-a567-0e02b2c3d479',
   'f47ac10b-58cc-4372-a567-0e02b2c3d479',
   'Ahmed Hassan',
-  'ahmed.hassan@demo.wancom.pk',
+  'ahmed.hassan@demo.netaxis.pk',
   '+92 321 1234567',
   'House 42, Street 7, F-10/3, Islamabad',
   '61101-1234567-8',
@@ -42,7 +42,7 @@ INSERT INTO subscribers (
   'HWTC12345678',
   'olt-islamabad-01',
   '0/1/3:5',
-  'ahmed.hassan@wancom',
+  'ahmed.hassan@netaxis',
   '2024-06-15 10:00:00+05',
   '2024-06-15 10:00:00+05',
   NOW()
@@ -642,7 +642,7 @@ INSERT INTO notifications (
   'f47ac10b-58cc-4372-a567-0e02b2c3d479',
   'invoice_generated',
   'email',
-  'ahmed.hassan@demo.wancom.pk',
+  'ahmed.hassan@demo.netaxis.pk',
   'Your November 2024 Invoice is Ready',
   'Dear Ahmed Hassan, your invoice INV-2024-11-0001 for PKR 2,950 has been generated. Due date: December 5, 2024.',
   'sent',
@@ -656,7 +656,7 @@ INSERT INTO notifications (
   'sms',
   '+92 321 1234567',
   NULL,
-  'WANCOM: Your Nov invoice PKR 2,950 is ready. Due: Dec 5. Pay via JazzCash/Easypaisa. Ref: INV-2024-11-0001',
+  'NetAxis: Your Nov invoice PKR 2,950 is ready. Due: Dec 5. Pay via JazzCash/Easypaisa. Ref: INV-2024-11-0001',
   'sent',
   '2024-11-28 10:05:30+05',
   '2024-11-28 10:05:30+05'
@@ -666,7 +666,7 @@ INSERT INTO notifications (
   'f47ac10b-58cc-4372-a567-0e02b2c3d479',
   'payment_received',
   'email',
-  'ahmed.hassan@demo.wancom.pk',
+  'ahmed.hassan@demo.netaxis.pk',
   'Payment Received - Thank You!',
   'Dear Ahmed Hassan, we have received your payment of PKR 2,950 for invoice INV-2024-10-0001. Thank you for your prompt payment!',
   'sent',

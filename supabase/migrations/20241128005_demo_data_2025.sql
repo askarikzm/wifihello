@@ -1,5 +1,5 @@
 -- =====================================================
--- WANCOM ISP Customer Portal - Demo Data (2025 Dates)
+-- NetAxis ISP Customer Portal - Demo Data (2025 Dates)
 -- Generated: 2025-11-28
 -- Purpose: High-stakes live demo with realistic mock data
 -- SAFE: Only INSERT/UPDATE statements, no destructive operations
@@ -63,7 +63,7 @@ INSERT INTO subscribers (
   'f47ac10b-58cc-4372-a567-0e02b2c3d479',
   'f47ac10b-58cc-4372-a567-0e02b2c3d479',
   'Ahmed Hassan',
-  'ahmed.hassan@demo.wancom.pk',
+  'ahmed.hassan@demo.netaxis.pk',
   '+92 321 1234567',
   'House 42, Street 7, F-10/3, Islamabad',
   '61101-1234567-8',
@@ -72,7 +72,7 @@ INSERT INTO subscribers (
   'HWTC12345678',
   'olt-islamabad-01',
   '0/1/3:5',
-  'ahmed.hassan@wancom',
+  'ahmed.hassan@netaxis',
   '2025-06-15 10:00:00+05',
   '2025-06-15 10:00:00+05',
   NOW()

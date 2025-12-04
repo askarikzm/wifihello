@@ -49,11 +49,11 @@ export default function LoginPage() {
   async function handleDemoLogin() {
     setLoading(true);
     setError(null);
-    setEmail('demo@wancom.pk');
+    setEmail('demo@netaxis.pk');
     setPassword('demo123456');
     
     const { data, error } = await supabase.auth.signInWithPassword({ 
-      email: 'demo@wancom.pk', 
+      email: 'demo@netaxis.pk', 
       password: 'demo123456' 
     });
     if (error) {
@@ -94,7 +94,7 @@ export default function LoginPage() {
           {/* Logo */}
           <div className="flex items-center justify-center gap-2 mb-2">
             <Wifi className="w-8 h-8 text-blue-500" />
-            <span className="text-2xl font-bold text-white">WANCOM</span>
+            <span className="text-2xl font-bold text-white">NetAxis</span>
           </div>
 
           <div className="text-center">
@@ -176,7 +176,7 @@ export default function LoginPage() {
         {/* Demo credentials info */}
         <div className="mt-6 p-4 rounded-lg bg-blue-500/10 border border-blue-500/30">
           <p className="text-sm text-blue-300 text-center">
-            <strong>POC Demo:</strong> demo@wancom.pk / demo123456
+            <strong>POC Demo:</strong> demo@netaxis.pk / demo123456
           </p>
         </div>
       </div>

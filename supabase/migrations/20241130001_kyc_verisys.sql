@@ -1,5 +1,5 @@
 -- ============================================
--- WANCOM ISP Portal - KYC Verisys Integration
+-- NetAxis ISP Portal - KYC Verisys Integration
 -- Migration: 20241130001_kyc_verisys.sql
 -- Description: NADRA Verisys CNIC verification tables
 -- Regulatory: PTRA 1996, PTA KYC Rules, CTDISR

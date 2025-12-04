@@ -1,5 +1,5 @@
 -- ============================================
--- WANCOM ISP Portal - Admin Operations
+-- NetAxis ISP Portal - Admin Operations
 -- Optional: Run these for admin functionality
 -- ============================================
 

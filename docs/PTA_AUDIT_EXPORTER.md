@@ -2,7 +2,7 @@
 
 ## Overview
 
-The PTA Audit Log Exporter is a NestJS microservice module for generating PTA-compliant audit log exports for WANCOM ISP. It supports automated and on-demand generation of regulatory reports required for Pakistan telecommunications compliance.
+The PTA Audit Log Exporter is a NestJS microservice module for generating PTA-compliant audit log exports for NetAxis ISP. It supports automated and on-demand generation of regulatory reports required for Pakistan telecommunications compliance.
 
 ## Regulatory Framework
 
@@ -36,10 +36,10 @@ This module implements requirements from:
 ### File Naming Convention
 
 ```
-WANCOM_<REGION_CODE>_AUDIT_<TYPE>_<YYYYMMDD>_<HHMMSS>.zip
+NetAxis_<REGION_CODE>_AUDIT_<TYPE>_<YYYYMMDD>_<HHMMSS>.zip
 ```
 
-Example: `WANCOM_PK-ISB_AUDIT_IPDR_DAILY_20241202_023015.zip`
+Example: `NetAxis_PK-ISB_AUDIT_IPDR_DAILY_20241202_023015.zip`
 
 ## Architecture
 
@@ -121,7 +121,7 @@ Authorization: Bearer <jwt>
   "exportType": "IPDR_DAILY",
   "frequency": "DAILY",
   "formats": ["csv", "xlsx"],
-  "notifyEmails": ["compliance@wancom.pk"]
+  "notifyEmails": ["compliance@netaxis.pk"]
 }
 ```
 
@@ -181,8 +181,8 @@ GET /internal/audit-export/health
 ### ZIP Bundle Contents
 
 ```
-WANCOM_PK-ISB_AUDIT_IPDR_DAILY_20241202_023015.zip
-├── WANCOM_PK-ISB_AUDIT_IPDR_DAILY_20241202_023015.csv
+NetAxis_PK-ISB_AUDIT_IPDR_DAILY_20241202_023015.zip
+├── NetAxis_PK-ISB_AUDIT_IPDR_DAILY_20241202_023015.csv
 ├── MANIFEST.json
 └── README.txt
 ```
@@ -193,7 +193,7 @@ WANCOM_PK-ISB_AUDIT_IPDR_DAILY_20241202_023015.zip
 {
   "version": "1.0",
   "generatedAt": "2024-12-02T02:30:15.000Z",
-  "generator": "WANCOM ISP PTA Audit Exporter v1.0",
+  "generator": "NetAxis ISP PTA Audit Exporter v1.0",
   "exportRunId": "uuid",
   "exportType": "IPDR_DAILY",
   "dateRange": {
@@ -203,7 +203,7 @@ WANCOM_PK-ISB_AUDIT_IPDR_DAILY_20241202_023015.zip
   "regionCode": "PK-ISB",
   "files": [
     {
-      "filename": "WANCOM_PK-ISB_AUDIT_IPDR_DAILY_20241202_023015.csv",
+      "filename": "NetAxis_PK-ISB_AUDIT_IPDR_DAILY_20241202_023015.csv",
       "size": 1234567,
       "sha256": "abc123...",
       "rowCount": 10000,
@@ -272,7 +272,7 @@ const { url, expiresAt } = await auditExportService.getDownloadUrl(
 
 ```bash
 # Create export
-curl -X POST https://api.wancom.pk/admin/audit-export/runs \
+curl -X POST https://api.netaxis.pk/admin/audit-export/runs \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -283,7 +283,7 @@ curl -X POST https://api.wancom.pk/admin/audit-export/runs \
   }'
 
 # Download file
-curl -X GET "https://api.wancom.pk/audit-export/files/$FILE_ID/download" \
+curl -X GET "https://api.netaxis.pk/audit-export/files/$FILE_ID/download" \
   -H "Authorization: Bearer $TOKEN" \
   -o export.zip
 ```
@@ -319,10 +319,10 @@ curl -X GET "https://api.wancom.pk/audit-export/files/$FILE_ID/download" \
 
 ```bash
 # View scheduler logs
-docker logs wancom-backend 2>&1 | grep AuditExportScheduler
+docker logs netaxis-backend 2>&1 | grep AuditExportScheduler
 
 # View generator logs
-docker logs wancom-backend 2>&1 | grep AuditExportGenerator
+docker logs netaxis-backend 2>&1 | grep AuditExportGenerator
 ```
 
 ## Migration Guide
@@ -357,5 +357,5 @@ psql $DATABASE_URL -f supabase/migrations/20241202002_pta_audit_export_seed.sql
 ## Support
 
 For technical support, contact:
-- Email: tech@wancom.pk
+- Email: tech@netaxis.pk
 - Internal: #compliance-tech Slack channel

@@ -1,15 +1,15 @@
 #!/bin/bash
 
 ###############################################################################
-# WANCOM Quick Check - Last 30 Minutes Activity
+# NetAxis Quick Check - Last 30 Minutes Activity
 # Shows recent activity at a glance
 # Usage: ./quick-check.sh
 ###############################################################################
 
-LOG_FILE="/var/log/nginx/wancom_access.log"
+LOG_FILE="/var/log/nginx/netaxis_access.log"
 
 echo "╔═══════════════════════════════════════════════════════════════════╗"
-echo "║           WANCOM QUICK CHECK - Last 30 Minutes                    ║"
+echo "║           NetAxis QUICK CHECK - Last 30 Minutes                    ║"
 echo "╚═══════════════════════════════════════════════════════════════════╝"
 echo ""
 
@@ -64,18 +64,18 @@ tail -1000 "$LOG_FILE" | grep -E "/login|/dashboard|/admin" | tail -5 | while re
 done
 echo ""
 
-# Check if WANCOM customer is online
-echo "🇵🇰 WANCOM CUSTOMER STATUS"
+# Check if NetAxis customer is online
+echo "🇵🇰 NetAxis CUSTOMER STATUS"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-WANCOM_ACTIVE=$(tail -500 "$LOG_FILE" | grep "119.152.232.80" | wc -l)
+NetAxis_ACTIVE=$(tail -500 "$LOG_FILE" | grep "119.152.232.80" | wc -l)
 
-if [ $WANCOM_ACTIVE -gt 0 ]; then
-    LAST_WANCOM=$(tail -500 "$LOG_FILE" | grep "119.152.232.80" | tail -1 | awk '{print $4, $7}' | sed 's/\[//g')
-    echo "✅ ACTIVE - 119.152.232.80 (PTCL Lahore - WANCOM customer)"
-    echo "   Last activity: $LAST_WANCOM"
-    echo "   Recent requests: $WANCOM_ACTIVE (in last 500)"
+if [ $NetAxis_ACTIVE -gt 0 ]; then
+    LAST_NetAxis=$(tail -500 "$LOG_FILE" | grep "119.152.232.80" | tail -1 | awk '{print $4, $7}' | sed 's/\[//g')
+    echo "✅ ACTIVE - 119.152.232.80 (PTCL Lahore - NetAxis customer)"
+    echo "   Last activity: $LAST_NetAxis"
+    echo "   Recent requests: $NetAxis_ACTIVE (in last 500)"
 else
-    echo "⭕ No recent activity from known WANCOM customer"
+    echo "⭕ No recent activity from known NetAxis customer"
 fi
 echo ""
 

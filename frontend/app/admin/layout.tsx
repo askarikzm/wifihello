@@ -110,7 +110,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <div className="h-8 w-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold">
                 W
               </div>
-              <span className="text-lg font-semibold text-white">WANCOM Admin</span>
+              <span className="text-lg font-semibold text-white">NetAxis Admin</span>
             </Link>
             <button 
               className="lg:hidden text-slate-400 hover:text-white"

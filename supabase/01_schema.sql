@@ -1,5 +1,5 @@
 -- ============================================
--- WANCOM ISP Portal - Complete Supabase Setup
+-- NetAxis ISP Portal - Complete Supabase Setup
 -- Run this in Supabase SQL Editor
 -- ============================================
 

@@ -145,7 +145,7 @@ export class NotificationService {
     const apiUrl = this.configService.get<string>('CMPAK_API_URL') || '';
     const username = this.configService.get<string>('CMPAK_USERNAME') || '';
     const password = this.configService.get<string>('CMPAK_PASSWORD') || '';
-    const mask = this.configService.get<string>('CMPAK_MASK') || 'WANCOM';
+    const mask = this.configService.get<string>('CMPAK_MASK') || 'NETAXIS';
 
     try {
       const response = await firstValueFrom(
@@ -230,7 +230,7 @@ export class NotificationService {
 
   private async sendViaSendGrid(recipient: string, subject: string, body: string): Promise<EmailProviderResponse> {
     const apiKey = this.configService.get<string>('SENDGRID_API_KEY') || '';
-    const fromEmail = this.configService.get<string>('SENDGRID_FROM_EMAIL') || 'noreply@wancom.pk';
+    const fromEmail = this.configService.get<string>('SENDGRID_FROM_EMAIL') || 'noreply@netaxis.pk';
 
     try {
       const response = await firstValueFrom(

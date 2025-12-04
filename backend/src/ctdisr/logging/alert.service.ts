@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Alert Service
+ * NetAxis ISP - CTDISR-2025 Alert Service
  * Real-time security alerting
  */
 
@@ -404,7 +404,7 @@ Resource: ${event.resourceType}/${event.resourceId || 'N/A'}
         title,
         body,
         timestamp: new Date().toISOString(),
-        source: 'wancom-ctdisr',
+        source: 'netaxis-ctdisr',
       });
     }
   }
@@ -432,7 +432,7 @@ Resource: ${event.resourceType}/${event.resourceId || 'N/A'}
       payload: {
         summary: title,
         severity,
-        source: 'wancom-ctdisr',
+        source: 'netaxis-ctdisr',
         custom_details: { body },
       },
     });

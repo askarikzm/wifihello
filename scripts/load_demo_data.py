@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-WANCOM ISP Customer Portal - Demo Data Loader
+NetAxis ISP Customer Portal - Demo Data Loader
 ==============================================
 Loads realistic mock data for live demos without affecting production data.
 
@@ -156,7 +156,7 @@ def generate_payments(invoices: list) -> list:
 def load_demo_data(supabase: Client, dry_run: bool = False):
     """Load all demo data into Supabase."""
     
-    print("🚀 WANCOM ISP Demo Data Loader")
+    print("🚀 NetAxis ISP Demo Data Loader")
     print("=" * 50)
     print(f"Demo Customer ID: {DEMO_CUSTOMER_ID}")
     print(f"Dry Run: {dry_run}")
@@ -189,7 +189,7 @@ def load_demo_data(supabase: Client, dry_run: bool = False):
         "id": DEMO_CUSTOMER_ID,
         "user_id": DEMO_CUSTOMER_ID,
         "full_name": "Ahmed Hassan",
-        "email": "ahmed.hassan@demo.wancom.pk",
+        "email": "ahmed.hassan@demo.netaxis.pk",
         "phone": "+92 321 1234567",
         "address": "House 42, Street 7, F-10/3, Islamabad",
         "cnic": "61101-1234567-8",
@@ -197,7 +197,7 @@ def load_demo_data(supabase: Client, dry_run: bool = False):
         "onu_serial": "HWTC12345678",
         "olt_id": "olt-islamabad-01",
         "olt_port": "0/1/3:5",
-        "pppoe_username": "ahmed.hassan@wancom",
+        "pppoe_username": "ahmed.hassan@netaxis",
         "activation_date": "2024-06-15 10:00:00+05:00",
     }
     
@@ -270,7 +270,7 @@ def cleanup_demo_data(supabase: Client):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="WANCOM ISP Demo Data Loader")
+    parser = argparse.ArgumentParser(description="NetAxis ISP Demo Data Loader")
     parser.add_argument("--supabase-url", help="Supabase project URL")
     parser.add_argument("--service-key", help="Supabase service role key")
     parser.add_argument("--dry-run", action="store_true", help="Preview without writing")

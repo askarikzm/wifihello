@@ -1,5 +1,5 @@
 -- ============================================
--- WANCOM ISP - CTDISR-2025 ZERO-TRUST ACCESS CONTROL SCHEMA
+-- NetAxis ISP - CTDISR-2025 ZERO-TRUST ACCESS CONTROL SCHEMA
 -- Section 5: Identity & Access Management
 -- Migration: 20241202012_ctdisr_zero_trust.sql
 -- ============================================

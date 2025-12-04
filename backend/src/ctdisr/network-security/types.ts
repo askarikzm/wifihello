@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Network Security Types
+ * NetAxis ISP - CTDISR-2025 Network Security Types
  */
 
 // ============================================

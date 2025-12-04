@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Policy Decorator
+ * NetAxis ISP - CTDISR-2025 Policy Decorator
  * Custom decorator to enforce CTDISR policies on endpoints
  */
 

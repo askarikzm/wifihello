@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Network Security Controller
+ * NetAxis ISP - CTDISR-2025 Network Security Controller
  */
 
 import {

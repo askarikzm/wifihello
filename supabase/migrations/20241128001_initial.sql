@@ -1,4 +1,4 @@
--- Supabase initial schema for WANCOM ISP Portal
+-- Supabase initial schema for NetAxis ISP Portal
 create schema if not exists billing;
 create schema if not exists network;
 

@@ -584,7 +584,7 @@ export class IncidentResponseService {
       incidentId: dto.incidentId,
       communicationType: 'notification',
       direction: 'outbound',
-      fromParty: 'WANCOM Security Team',
+      fromParty: 'NetAxis Security Team',
       toParties: ['PTA'],
       subject: `Incident Report: ${incident.incidentNumber}`,
       summary: dto.summary,

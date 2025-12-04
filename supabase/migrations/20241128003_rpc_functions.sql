@@ -1,5 +1,5 @@
 -- ============================================
--- WANCOM ISP Portal - RPC Functions
+-- NetAxis ISP Portal - RPC Functions
 -- Admin Dashboard, Revenue, Analytics
 -- ============================================
 

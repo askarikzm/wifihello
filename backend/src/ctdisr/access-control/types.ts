@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Zero-Trust Access Control Types
+ * NetAxis ISP - CTDISR-2025 Zero-Trust Access Control Types
  */
 
 import { AssetClassification, IncidentSeverity, AccessAction } from '../types';

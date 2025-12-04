@@ -279,8 +279,8 @@ export const ROLE_PERMISSIONS: Record<AuditExportRole, AuditExportPermission[]> 
 // Constants
 // ============================================
 
-export const WANCOM_LICENSEE = {
-  name: 'WANCOM (Pvt) Ltd',
+export const NetAxis_LICENSEE = {
+  name: 'NetAxis (Pvt) Ltd',
   licenseNumber: 'PTA/FLL/XXXX', // Replace with actual license
   region: 'Pakistan',
 };
@@ -296,4 +296,4 @@ export const SUPPORTED_TIMEZONES = ['Asia/Karachi', 'UTC'];
 
 export const DEFAULT_TIMEZONE = 'Asia/Karachi';
 
-export const ZIP_FILE_NAME_PATTERN = 'WANCOM_{regionCode}_AUDIT_{typeCode}_{date}_{time}.zip';
+export const ZIP_FILE_NAME_PATTERN = 'NetAxis_{regionCode}_AUDIT_{typeCode}_{date}_{time}.zip';

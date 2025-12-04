@@ -1,15 +1,15 @@
 #!/bin/bash
 
 ###############################################################################
-# WANCOM Error Monitor
+# NetAxis Error Monitor
 # Watches for error responses (4xx, 5xx) in real-time
 # Highlights critical issues for immediate attention
 ###############################################################################
 
-LOG_FILE="/var/log/nginx/wancom_access.log"
+LOG_FILE="/var/log/nginx/netaxis_access.log"
 
 echo "╔═══════════════════════════════════════════════════════════════════╗"
-echo "║           WANCOM ERROR MONITOR - Real-time 4xx/5xx Tracking       ║"
+echo "║           NetAxis ERROR MONITOR - Real-time 4xx/5xx Tracking       ║"
 echo "║           Press Ctrl+C to stop                                    ║"
 echo "╚═══════════════════════════════════════════════════════════════════╝"
 echo ""
@@ -41,9 +41,9 @@ tail -f "$LOG_FILE" | while read -r line; do
         elif [[ $status =~ ^5[0-9][0-9]$ ]]; then
             echo -e "\033[1;31m$(printf "%-20s %-18s %-10s %-50s" "$time" "$ip" "$status" "${path:0:50}")\033[0m ❌ SERVER ERROR"
 
-            # Check if it's the WANCOM customer
+            # Check if it's the NetAxis customer
             if [ "$ip" == "119.152.232.80" ]; then
-                echo "   └─ 🚨 ALERT: WANCOM CUSTOMER ENCOUNTERED SERVER ERROR!"
+                echo "   └─ 🚨 ALERT: NetAxis CUSTOMER ENCOUNTERED SERVER ERROR!"
             fi
         else
             echo "$(printf "%-20s %-18s %-10s %-50s" "$time" "$ip" "$status" "${path:0:50}")"

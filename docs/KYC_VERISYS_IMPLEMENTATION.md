@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the NADRA Verisys CNIC verification integration for the WANCOM ISP Customer Portal. The implementation provides identity verification capabilities as required by Pakistani regulatory frameworks (PTRA 1996, PTA KYC Rules, CTDISR).
+This document describes the NADRA Verisys CNIC verification integration for the NetAxis ISP Customer Portal. The implementation provides identity verification capabilities as required by Pakistani regulatory frameworks (PTRA 1996, PTA KYC Rules, CTDISR).
 
 ## Table of Contents
 
@@ -373,7 +373,7 @@ async activateService(userId: string) {
 Check NestJS logs for Verisys operations:
 
 ```bash
-docker logs wancom_backend_1 | grep -i verisys
+docker logs netaxis_backend_1 | grep -i verisys
 ```
 
 ---
@@ -405,6 +405,6 @@ For NADRA Verisys integration support:
 - NADRA Support: https://www.nadra.gov.pk
 - PTA Guidelines: https://www.pta.gov.pk
 
-For WANCOM implementation:
-- Technical: tech@wancom.pk
-- Compliance: compliance@wancom.pk
+For NetAxis implementation:
+- Technical: tech@netaxis.pk
+- Compliance: compliance@netaxis.pk

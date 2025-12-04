@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Asset Management Controller
+ * NetAxis ISP - CTDISR-2025 Asset Management Controller
  */
 
 import {

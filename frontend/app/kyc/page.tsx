@@ -4,7 +4,7 @@ import { KycVerificationCard } from '@/components/kyc';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const metadata: Metadata = {
-  title: 'Identity Verification (KYC) | WANCOM',
+  title: 'Identity Verification (KYC) | NetAxis',
   description: 'Verify your identity through NADRA Verisys',
 };
 

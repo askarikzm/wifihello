@@ -1,6 +1,6 @@
 {
   "meta": {
-    "description": "WANCOM ISP Customer Portal - Demo API Payloads",
+    "description": "NetAxis ISP Customer Portal - Demo API Payloads",
     "generated": "2024-11-28T14:30:00+05:00",
     "demo_customer_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
     "timezone": "Asia/Karachi (PKT, UTC+5)"
@@ -13,7 +13,7 @@
       "response": {
         "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
         "full_name": "Ahmed Hassan",
-        "email": "ahmed.hassan@demo.wancom.pk",
+        "email": "ahmed.hassan@demo.netaxis.pk",
         "phone": "+92 321 1234567",
         "address": "House 42, Street 7, F-10/3, Islamabad",
         "cnic": "61101-XXXX567-8",

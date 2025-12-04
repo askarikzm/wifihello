@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Access Control Module
+ * NetAxis ISP - CTDISR-2025 Access Control Module
  */
 
 import { Module } from '@nestjs/common';

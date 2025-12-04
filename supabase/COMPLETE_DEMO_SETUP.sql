@@ -1,5 +1,5 @@
 -- =====================================================
--- WANCOM ISP - COMPLETE DEMO SETUP
+-- NetAxis ISP - COMPLETE DEMO SETUP
 -- Run this entire script in Supabase SQL Editor
 -- This creates all tables AND populates demo data
 -- =====================================================
@@ -180,7 +180,7 @@ VALUES (
   'f47ac10b-58cc-4372-a567-0e02b2c3d479',
   (SELECT id FROM auth.users LIMIT 1),
   'Ahmed Hassan',
-  'ahmed.hassan@demo.wancom.pk',
+  'ahmed.hassan@demo.netaxis.pk',
   '+92 321 1234567',
   'House 42, Street 7, F-10/3, Islamabad',
   '61101-1234567-8',
@@ -189,7 +189,7 @@ VALUES (
   'HWTC12345678',
   'olt-islamabad-01',
   '0/1/3:5',
-  'ahmed.hassan@wancom',
+  'ahmed.hassan@netaxis',
   '2025-06-15 10:00:00+05',
   '2025-06-15 10:00:00+05',
   NOW()
@@ -282,21 +282,21 @@ WHERE s.id = 'f47ac10b-58cc-4372-a567-0e02b2c3d479';
 -- =====================================================
 -- NOTE: You must FIRST create the admin user in Supabase Dashboard:
 -- 1. Go to Authentication → Users → Add User
--- 2. Email: admin@wancom.pk
+-- 2. Email: admin@netaxis.pk
 -- 3. Password: @dmin123456
 -- 4. Then run this SQL to set the admin role:
 
--- Set admin role for admin@wancom.pk
+-- Set admin role for admin@netaxis.pk
 UPDATE auth.users 
 SET raw_user_meta_data = COALESCE(raw_user_meta_data, '{}'::jsonb) || 
     '{"role": "admin", "full_name": "System Administrator"}'::jsonb
-WHERE email = 'admin@wancom.pk';
+WHERE email = 'admin@netaxis.pk';
 
 -- Set customer role for demo user
 UPDATE auth.users 
 SET raw_user_meta_data = COALESCE(raw_user_meta_data, '{}'::jsonb) || 
     '{"role": "customer", "full_name": "Demo Customer"}'::jsonb
-WHERE email = 'demo@wancom.pk';
+WHERE email = 'demo@netaxis.pk';
 
 -- Verify admin setup
 SELECT 
@@ -304,5 +304,5 @@ SELECT
   raw_user_meta_data->>'role' as role,
   raw_user_meta_data->>'full_name' as name
 FROM auth.users
-WHERE email LIKE '%@wancom.pk'
+WHERE email LIKE '%@netaxis.pk'
 ORDER BY created_at;

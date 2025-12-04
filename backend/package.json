@@ -1,8 +1,8 @@
 {
-  "name": "wancom-backend",
+  "name": "netaxis-backend",
   "version": "0.1.0",
   "private": true,
-  "description": "WANCOM NestJS API integrating Supabase Auth, billing, payments, and network orchestration.",
+  "description": "NetAxis NestJS API integrating Supabase Auth, billing, payments, and network orchestration.",
   "scripts": {
     "start": "nest start",
     "start:dev": "nest start --watch",

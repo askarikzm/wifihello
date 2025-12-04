@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Encryption Service
+ * NetAxis ISP - CTDISR-2025 Encryption Service
  * AES-256-GCM encryption with key management
  */
 

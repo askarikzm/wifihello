@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Logging Module
+ * NetAxis ISP - CTDISR-2025 Logging Module
  */
 
 import { Module } from '@nestjs/common';

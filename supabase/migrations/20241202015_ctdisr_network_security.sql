@@ -1,4 +1,4 @@
--- WANCOM ISP - CTDISR-2025 Network Security Architecture
+-- NetAxis ISP - CTDISR-2025 Network Security Architecture
 -- Firewall rules, network zones, IDS/IPS, DDoS protection
 
 -- =====================================================

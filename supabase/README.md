@@ -1,4 +1,4 @@
-# WANCOM Supabase Setup Guide
+# NetAxis Supabase Setup Guide
 
 ## Quick Start
 
@@ -9,7 +9,7 @@
 3. Click "New Project"
 4. Fill in:
    - **Organization**: Select or create one
-   - **Project Name**: `wancom-portal`
+   - **Project Name**: `netaxis-portal`
    - **Database Password**: Generate a strong password (save it!)
    - **Region**: Choose closest to your users
 5. Click "Create new project" and wait for provisioning (~2 minutes)
@@ -37,7 +37,7 @@ Go to **SQL Editor** in your Supabase dashboard and run these scripts **in order
 1. Go to **Authentication** → **Users**
 2. Click **Add user** → **Create new user**
 3. Fill in:
-   - **Email**: `demo@wancom.pk`
+   - **Email**: `demo@netaxis.pk`
    - **Password**: `demo123456`
    - **Auto Confirm User**: ✅ Checked
 4. Click **Create user**
@@ -47,7 +47,7 @@ Go to **SQL Editor** in your Supabase dashboard and run these scripts **in order
 After creating the demo user, go to **SQL Editor** and run:
 
 ```sql
-select setup_demo_user('demo@wancom.pk');
+select setup_demo_user('demo@netaxis.pk');
 ```
 
 This creates:
@@ -62,7 +62,7 @@ This creates:
 SSH to your server and update the `.env` file:
 
 ```bash
-cd /var/www/wancom
+cd /var/www/netaxis
 nano .env
 ```
 
@@ -87,15 +87,15 @@ To get the JWT secret:
 ### Step 7: Restart Services
 
 ```bash
-cd /var/www/wancom
-docker restart wancom-frontend wancom-backend
+cd /var/www/netaxis
+docker restart netaxis-frontend netaxis-backend
 ```
 
 ### Step 8: Test Login
 
-1. Go to https://wancom.linkservex.com/login
+1. Go to https://netaxis.linkservex.com/login
 2. Login with:
-   - **Email**: `demo@wancom.pk`
+   - **Email**: `demo@netaxis.pk`
    - **Password**: `demo123456`
 
 ---

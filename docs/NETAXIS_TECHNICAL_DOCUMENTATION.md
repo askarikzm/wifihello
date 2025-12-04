@@ -1,4 +1,4 @@
-# WANCOM ISP Customer Portal
+# NetAxis ISP Customer Portal
 
 ## Enterprise Technical Documentation
 
@@ -33,7 +33,7 @@
 
 ### 1.1 Overview
 
-WANCOM is an enterprise-grade ISP Customer Portal designed for fiber-optic internet service providers. The platform provides a comprehensive solution for customer self-service, billing management, payment processing, network operations, and administrative functions.
+NetAxis is an enterprise-grade ISP Customer Portal designed for fiber-optic internet service providers. The platform provides a comprehensive solution for customer self-service, billing management, payment processing, network operations, and administrative functions.
 
 ### 1.2 Key Capabilities
 
@@ -397,7 +397,7 @@ Authorization: Bearer <supabase_jwt_token>
 {
   "invoice_id": "uuid",
   "gateway": "payfast",
-  "callback_url": "https://portal.wancom.pk/payments/success"
+  "callback_url": "https://portal.netaxis.pk/payments/success"
 }
 ```
 
@@ -485,7 +485,7 @@ All responses follow standard envelope:
 **Error Response (RFC 7807):**
 ```json
 {
-  "type": "https://api.wancom.pk/errors/validation",
+  "type": "https://api.netaxis.pk/errors/validation",
   "title": "Validation Error",
   "status": 400,
   "detail": "Invoice ID is required",
@@ -807,10 +807,10 @@ python scripts/reconcile_payments.py --gateway payfast --date 2025-11-28
 
 | Service | Image | Ports | Healthcheck |
 |---------|-------|-------|-------------|
-| frontend | wancom_frontend | 3100:3000 | HTTP /health |
-| backend | wancom_backend | 9000:9000 | HTTP /api/health |
-| network-service | wancom_network | 9100:9100 | HTTP /health |
-| radius-service | wancom_radius | 1812-1813/udp, 9200 | HTTP /health |
+| frontend | netaxis_frontend | 3100:3000 | HTTP /health |
+| backend | netaxis_backend | 9000:9000 | HTTP /api/health |
+| network-service | netaxis_network | 9100:9100 | HTTP /health |
+| radius-service | netaxis_radius | 1812-1813/udp, 9200 | HTTP /health |
 | nginx | nginx:alpine | 80, 443 | - |
 | prometheus | prom/prometheus | 9190:9090 | - |
 | grafana | grafana/grafana | 3200:3000 | - |
@@ -827,7 +827,7 @@ docker-compose up --build
 docker-compose build \
   --build-arg NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co \
   --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx \
-  --build-arg NEXT_PUBLIC_API_BASE=https://api.wancom.pk
+  --build-arg NEXT_PUBLIC_API_BASE=https://api.netaxis.pk
 
 docker-compose up -d
 ```
@@ -843,7 +843,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 # Frontend (build-time)
 NEXT_PUBLIC_SUPABASE_URL=${SUPABASE_URL}
 NEXT_PUBLIC_SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
-NEXT_PUBLIC_API_BASE=https://api.wancom.pk
+NEXT_PUBLIC_API_BASE=https://api.netaxis.pk
 
 # Network Service
 NETWORK_SERVICE_API_KEY=<generated-api-key>
@@ -863,10 +863,10 @@ GRAFANA_ADMIN_PASSWORD=<secure-password>
 # /infra/nginx/default.conf
 server {
     listen 443 ssl http2;
-    server_name wancom.pk;
+    server_name netaxis.pk;
 
-    ssl_certificate /etc/nginx/certs/live/wancom/fullchain.pem;
-    ssl_certificate_key /etc/nginx/certs/live/wancom/privkey.pem;
+    ssl_certificate /etc/nginx/certs/live/netaxis/fullchain.pem;
+    ssl_certificate_key /etc/nginx/certs/live/netaxis/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256;
 
@@ -1086,12 +1086,12 @@ node scripts/setup-admin-user.js
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: wancom-backend
+  name: netaxis-backend
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: wancom-backend
+    name: netaxis-backend
   minReplicas: 2
   maxReplicas: 10
   metrics:
@@ -1206,13 +1206,13 @@ spec:
 # scripts/db_backup.sh
 
 DATE=$(date +%Y%m%d_%H%M%S)
-BACKUP_FILE="wancom_backup_${DATE}.sql.gz"
+BACKUP_FILE="netaxis_backup_${DATE}.sql.gz"
 
 # Supabase pg_dump
 pg_dump $DATABASE_URL | gzip > /backups/${BACKUP_FILE}
 
 # Upload to S3
-aws s3 cp /backups/${BACKUP_FILE} s3://wancom-backups/${BACKUP_FILE}
+aws s3 cp /backups/${BACKUP_FILE} s3://netaxis-backups/${BACKUP_FILE}
 
 # Cleanup local (keep 7 days)
 find /backups -mtime +7 -delete
@@ -1234,7 +1234,7 @@ find /backups -mtime +7 -delete
 docker-compose down
 
 # 2. Restore database
-gunzip < wancom_backup_20251128.sql.gz | psql $DATABASE_URL
+gunzip < netaxis_backup_20251128.sql.gz | psql $DATABASE_URL
 
 # 3. Verify data integrity
 psql $DATABASE_URL -c "SELECT count(*) FROM public.customers;"
@@ -1265,7 +1265,7 @@ curl http://localhost:9000/api/health
 ### 15.2 File Structure
 
 ```
-wancom/
+netaxis/
 ├── backend/                 # NestJS API
 │   └── src/
 │       ├── admin/          # Admin endpoints
@@ -1316,4 +1316,4 @@ wancom/
 
 ---
 
-*© 2025 WANCOM Internet Services. All rights reserved.*
+*© 2025 NetAxis Internet Services. All rights reserved.*

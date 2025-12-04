@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Asset Management Service
+ * NetAxis ISP - CTDISR-2025 Asset Management Service
  */
 
 import { Injectable, Logger, NotFoundException, BadRequestException } from '@nestjs/common';

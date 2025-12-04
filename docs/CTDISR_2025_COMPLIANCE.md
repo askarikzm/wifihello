@@ -1,4 +1,4 @@
-# WANCOM ISP - CTDISR-2025 Compliance Framework
+# NetAxis ISP - CTDISR-2025 Compliance Framework
 
 ## Critical Telecom Data & Infrastructure Security Regulations 2025
 ### PTA Regulatory Compliance Documentation
@@ -21,7 +21,7 @@
 
 ## 1. Executive Summary
 
-The WANCOM ISP CTDISR-2025 module provides a comprehensive security framework that fully implements PTA's Critical Telecom Data & Infrastructure Security Regulations 2025. This implementation is designed to be:
+The NetAxis ISP CTDISR-2025 module provides a comprehensive security framework that fully implements PTA's Critical Telecom Data & Infrastructure Security Regulations 2025. This implementation is designed to be:
 
 - **PTA Audit Ready**: Complete documentation and evidence trails for DG-Enforcement, DG-Licensing, and PTA Audit Teams
 - **Real-time Compliant**: Automated monitoring, alerting, and reporting
@@ -351,8 +351,8 @@ ctdisr.failover_events
 ### 5.1 Base URL
 
 ```
-Production: https://api.wancom.pk/ctdisr
-Staging:    https://staging-api.wancom.pk/ctdisr
+Production: https://api.netaxis.pk/ctdisr
+Staging:    https://staging-api.netaxis.pk/ctdisr
 ```
 
 ### 5.2 Authentication
@@ -482,7 +482,7 @@ CTDISR_SIEM_ENDPOINT=<siem-webhook>
 CTDISR_ALERT_WEBHOOK=<alert-webhook>
 
 # Backup Configuration
-BACKUP_S3_BUCKET=wancom-backups-prod
+BACKUP_S3_BUCKET=netaxis-backups-prod
 BACKUP_ENCRYPTION_KEY=<backup-key>
 DR_PRIMARY_REGION=pk-isb-1
 DR_SECONDARY_REGION=pk-lhr-1
@@ -574,8 +574,8 @@ ctdisr_pending_access_reviews_count
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
-| 1.0 | 2025-01-XX | WANCOM Security Team | Initial release |
+| 1.0 | 2025-01-XX | NetAxis Security Team | Initial release |
 
 ---
 
-*This document is maintained as part of the WANCOM ISP CTDISR-2025 compliance program. For questions, contact security@wancom.pk.*
+*This document is maintained as part of the NetAxis ISP CTDISR-2025 compliance program. For questions, contact security@netaxis.pk.*

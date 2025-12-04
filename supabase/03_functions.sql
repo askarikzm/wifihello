@@ -1,5 +1,5 @@
 -- ============================================
--- WANCOM ISP Portal - Admin Functions & Views
+-- NetAxis ISP Portal - Admin Functions & Views
 -- Additional helper functions for the application
 -- ============================================
 

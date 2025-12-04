@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Asset Management Types
+ * NetAxis ISP - CTDISR-2025 Asset Management Types
  */
 
 import { AssetClassification } from '../types';

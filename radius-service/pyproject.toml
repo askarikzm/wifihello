@@ -1,7 +1,7 @@
 [project]
 name = "radius-service"
 version = "0.1.0"
-description = "WANCOM RADIUS AAA Service for ISP subscriber authentication"
+description = "NetAxis RADIUS AAA Service for ISP subscriber authentication"
 requires-python = ">=3.11"
 
 dependencies = [

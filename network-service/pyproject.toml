@@ -1,5 +1,5 @@
 [project]
-name = "wancom-network-service"
+name = "netaxis-network-service"
 version = "0.1.0"
 description = "OLT/ONU integration API"
 requires-python = ">=3.12"

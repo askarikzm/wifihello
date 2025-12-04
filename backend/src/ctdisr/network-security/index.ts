@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Network Security Module
+ * NetAxis ISP - CTDISR-2025 Network Security Module
  */
 
 import { Module } from '@nestjs/common';

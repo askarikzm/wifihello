@@ -1,4 +1,4 @@
-# WANCOM ISP - Complete Security Remediation Implementation Plan
+# NetAxis ISP - Complete Security Remediation Implementation Plan
 
 **Document Classification:** CONFIDENTIAL - Internal Use Only
 **Version:** 1.0
@@ -191,9 +191,9 @@ SECURITY CONTROLS IMPLEMENTED:
 #### 3.1.1 Impact Analysis
 
 The current service role key is exposed in:
-- `/var/www/wancom/.env`
-- `/var/www/wancom/backend/.env`
-- `/var/www/wancom/frontend/.env.local` ❌ CRITICAL - Frontend should NEVER have this
+- `/var/www/netaxis/.env`
+- `/var/www/netaxis/backend/.env`
+- `/var/www/netaxis/frontend/.env.local` ❌ CRITICAL - Frontend should NEVER have this
 
 This key bypasses ALL Row Level Security policies in Supabase.
 
@@ -211,7 +211,7 @@ This key bypasses ALL Row Level Security policies in Supabase.
 **Step 2: Update Backend Environment Only**
 
 ```bash
-# File: /var/www/wancom/backend/.env
+# File: /var/www/netaxis/backend/.env
 # UPDATE this line:
 SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.NEW_KEY_HERE
 ```
@@ -219,7 +219,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.NEW_KEY_HERE
 **Step 3: Remove from Frontend (Critical!)**
 
 ```bash
-# File: /var/www/wancom/frontend/.env.local
+# File: /var/www/netaxis/frontend/.env.local
 # REMOVE this line entirely:
 # SUPABASE_SERVICE_ROLE_KEY=...  ❌ DELETE THIS LINE
 
@@ -231,7 +231,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbG...  # This is safe - designed to be public
 **Step 4: Verify .gitignore Excludes .env Files**
 
 ```bash
-# File: /var/www/wancom/.gitignore
+# File: /var/www/netaxis/.gitignore
 # Ensure these lines exist:
 .env
 .env.local
@@ -243,7 +243,7 @@ frontend/.env.local
 **Step 5: Check Git History for Committed Secrets**
 
 ```bash
-cd /var/www/wancom
+cd /var/www/netaxis
 git log --all --full-history -- "*/.env*"
 
 # If any .env files were committed:
@@ -264,7 +264,7 @@ docker-compose logs -f backend  # Verify successful startup
 ```bash
 # Test that backend still connects:
 curl -H "Authorization: Bearer <valid-user-jwt>" \
-  https://api.wancom.co.za/api/health
+  https://api.netaxis.co.za/api/health
 
 # Expected: 200 OK
 ```
@@ -289,8 +289,8 @@ curl -H "Authorization: Bearer <valid-user-jwt>" \
 
 ```bash
 # Current keys in .env (WEAK):
-NETWORK_SERVICE_API_KEY=wancom_network_api_key_2024  # ❌ Predictable
-PAYMENT_WEBHOOK_SECRET=wancom_webhook_secret_2024    # ❌ Weak
+NETWORK_SERVICE_API_KEY=netaxis_network_api_key_2024  # ❌ Predictable
+PAYMENT_WEBHOOK_SECRET=netaxis_webhook_secret_2024    # ❌ Weak
 RADIUS_SHARED_SECRET=                                 # ❌ Empty default!
 ```
 
@@ -313,7 +313,7 @@ python3 -c "import secrets; print(secrets.token_urlsafe(32))"
 #### 3.2.3 Update Environment Files
 
 ```bash
-# File: /var/www/wancom/.env
+# File: /var/www/netaxis/.env
 
 # Generate 3 new keys and replace:
 NETWORK_SERVICE_API_KEY=8mK9_pLq2nR4xVw7yZ0bC5dE6fG8hJ1iK3mN5oP7qS9tU2vW4xY6zA8
@@ -337,7 +337,7 @@ docker-compose restart backend network-service radius-service
 
 ```bash
 # Create key rotation schedule:
-# File: /var/www/wancom/docs/KEY_ROTATION_POLICY.md
+# File: /var/www/netaxis/docs/KEY_ROTATION_POLICY.md
 ```
 
 **Recommended Rotation Schedule:**
@@ -357,13 +357,13 @@ docker-compose restart backend network-service radius-service
 #### 3.3.1 Install NestJS Throttler
 
 ```bash
-cd /var/www/wancom/backend
+cd /var/www/netaxis/backend
 npm install --save @nestjs/throttler
 ```
 
 #### 3.3.2 Configure Throttler Module
 
-**File:** `/var/www/wancom/backend/src/app.module.ts`
+**File:** `/var/www/netaxis/backend/src/app.module.ts`
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -449,7 +449,7 @@ npm install --save nestjs-throttler-storage-redis ioredis
 
 #### 3.3.4 Apply Strict Limits to Auth Endpoints
 
-**File:** `/var/www/wancom/backend/src/auth/auth.controller.ts`
+**File:** `/var/www/netaxis/backend/src/auth/auth.controller.ts`
 
 ```typescript
 import { Controller, Post, Body } from '@nestjs/common';
@@ -481,7 +481,7 @@ export class AuthController {
 
 #### 3.3.5 Configure Account Lockout
 
-**File:** `/var/www/wancom/backend/src/auth/auth.service.ts`
+**File:** `/var/www/netaxis/backend/src/auth/auth.service.ts`
 
 ```typescript
 import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
@@ -586,7 +586,7 @@ export class AuthService {
 
 #### 3.3.6 Create Account Lockout Table
 
-**File:** `/var/www/wancom/supabase/migrations/20250129_account_lockouts.sql`
+**File:** `/var/www/netaxis/supabase/migrations/20250129_account_lockouts.sql`
 
 ```sql
 -- Create account lockout tracking table
@@ -625,7 +625,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 ```bash
 # Test authentication rate limiting:
 for i in {1..10}; do
-  curl -X POST https://api.wancom.co.za/api/auth/login \
+  curl -X POST https://api.netaxis.co.za/api/auth/login \
     -H "Content-Type: application/json" \
     -d '{"email":"test@example.com","password":"wrong"}' \
     -w "\nStatus: %{http_code}\n"
@@ -656,7 +656,7 @@ done
 
 #### 3.4.1 Current Configuration (Insecure)
 
-**File:** `/var/www/wancom/docker-compose.yml`
+**File:** `/var/www/netaxis/docker-compose.yml`
 
 ```yaml
 radius-service:
@@ -672,7 +672,7 @@ This exposes RADIUS to the internet if host firewall is misconfigured!
 **Option 1: Bind to Internal Network Only**
 
 ```yaml
-# File: /var/www/wancom/docker-compose.yml
+# File: /var/www/netaxis/docker-compose.yml
 
 radius-service:
   networks:
@@ -773,7 +773,7 @@ openssl rand -base64 24 | tr -d '/' | cut -c1-32
 #### 3.5.2 Update Configuration
 
 ```bash
-# File: /var/www/wancom/.env
+# File: /var/www/netaxis/.env
 RADIUS_SHARED_SECRET=<YOUR_GENERATED_SECRET_HERE>
 ```
 
@@ -837,13 +837,13 @@ echo "User-Name = testuser, User-Password = testpass" | \
 
 #### 4.1.1 Vault Installation (Docker)
 
-**File:** `/var/www/wancom/docker-compose.yml`
+**File:** `/var/www/netaxis/docker-compose.yml`
 
 ```yaml
 services:
   vault:
     image: hashicorp/vault:1.17
-    container_name: wancom-vault
+    container_name: netaxis-vault
     restart: unless-stopped
     ports:
       - "127.0.0.1:8200:8200"
@@ -887,7 +887,7 @@ volumes:
 docker-compose up -d vault
 
 # Initialize (first time only)
-docker exec -it wancom-vault vault operator init -key-shares=5 -key-threshold=3
+docker exec -it netaxis-vault vault operator init -key-shares=5 -key-threshold=3
 
 # Output will contain:
 # - 5 unseal keys
@@ -903,41 +903,41 @@ docker exec -it wancom-vault vault operator init -key-shares=5 -key-threshold=3
 # Initial Root Token: s.MNO...
 
 # Unseal vault (requires 3 of 5 keys):
-docker exec -it wancom-vault vault operator unseal <KEY_1>
-docker exec -it wancom-vault vault operator unseal <KEY_2>
-docker exec -it wancom-vault vault operator unseal <KEY_3>
+docker exec -it netaxis-vault vault operator unseal <KEY_1>
+docker exec -it netaxis-vault vault operator unseal <KEY_2>
+docker exec -it netaxis-vault vault operator unseal <KEY_3>
 
 # Login with root token:
-docker exec -it wancom-vault vault login <ROOT_TOKEN>
+docker exec -it netaxis-vault vault login <ROOT_TOKEN>
 ```
 
 #### 4.1.3 Configure Vault Secrets Engine
 
 ```bash
 # Enable KV v2 secrets engine
-docker exec -it wancom-vault vault secrets enable -path=wancom kv-v2
+docker exec -it netaxis-vault vault secrets enable -path=netaxis kv-v2
 
 # Store secrets:
-docker exec -it wancom-vault vault kv put wancom/supabase \
+docker exec -it netaxis-vault vault kv put netaxis/supabase \
   url="https://your-project.supabase.co" \
   anon_key="<ANON_KEY>" \
   service_role_key="<SERVICE_ROLE_KEY>"
 
-docker exec -it wancom-vault vault kv put wancom/network \
+docker exec -it netaxis-vault vault kv put netaxis/network \
   api_key="<NETWORK_API_KEY>"
 
-docker exec -it wancom-vault vault kv put wancom/radius \
+docker exec -it netaxis-vault vault kv put netaxis/radius \
   shared_secret="<RADIUS_SECRET>"
 
-docker exec -it wancom-vault vault kv put wancom/payment \
+docker exec -it netaxis-vault vault kv put netaxis/payment \
   webhook_secret="<PAYMENT_WEBHOOK_SECRET>"
 
-docker exec -it wancom-vault vault kv put wancom/payment/jazzcash \
+docker exec -it netaxis-vault vault kv put netaxis/payment/jazzcash \
   merchant_id="<JAZZCASH_MERCHANT_ID>" \
   password="<JAZZCASH_PASSWORD>" \
   integrity_salt="<JAZZCASH_SALT>"
 
-docker exec -it wancom-vault vault kv put wancom/payment/easypaisa \
+docker exec -it netaxis-vault vault kv put netaxis/payment/easypaisa \
   store_id="<EASYPAISA_STORE_ID>" \
   hash_key="<EASYPAISA_HASH_KEY>"
 ```
@@ -946,30 +946,30 @@ docker exec -it wancom-vault vault kv put wancom/payment/easypaisa \
 
 ```bash
 # Create policy for backend application
-docker exec -it wancom-vault vault policy write backend-policy - <<EOF
-path "wancom/*" {
+docker exec -it netaxis-vault vault policy write backend-policy - <<EOF
+path "netaxis/*" {
   capabilities = ["read", "list"]
 }
 
-path "wancom/data/*" {
+path "netaxis/data/*" {
   capabilities = ["read", "list"]
 }
 EOF
 
 # Create AppRole for backend authentication
-docker exec -it wancom-vault vault auth enable approle
+docker exec -it netaxis-vault vault auth enable approle
 
-docker exec -it wancom-vault vault write auth/approle/role/backend \
+docker exec -it netaxis-vault vault write auth/approle/role/backend \
   token_policies="backend-policy" \
   token_ttl=1h \
   token_max_ttl=4h \
   secret_id_ttl=0
 
 # Get Role ID and Secret ID
-docker exec -it wancom-vault vault read auth/approle/role/backend/role-id
+docker exec -it netaxis-vault vault read auth/approle/role/backend/role-id
 # Save role_id
 
-docker exec -it wancom-vault vault write -f auth/approle/role/backend/secret-id
+docker exec -it netaxis-vault vault write -f auth/approle/role/backend/secret-id
 # Save secret_id
 ```
 
@@ -978,13 +978,13 @@ docker exec -it wancom-vault vault write -f auth/approle/role/backend/secret-id
 **Install Dependencies:**
 
 ```bash
-cd /var/www/wancom/backend
+cd /var/www/netaxis/backend
 npm install --save node-vault
 ```
 
 **Create Vault Service:**
 
-**File:** `/var/www/wancom/backend/src/vault/vault.service.ts`
+**File:** `/var/www/netaxis/backend/src/vault/vault.service.ts`
 
 ```typescript
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
@@ -1041,7 +1041,7 @@ export class VaultService implements OnModuleInit {
     }
 
     try {
-      const result = await this.client.read(`wancom/data/${path}`);
+      const result = await this.client.read(`netaxis/data/${path}`);
       return result.data.data;
     } catch (error) {
       this.logger.error(`Failed to read secret: ${path}`, error);
@@ -1091,7 +1091,7 @@ export class VaultService implements OnModuleInit {
 }
 ```
 
-**File:** `/var/www/wancom/backend/src/vault/vault.module.ts`
+**File:** `/var/www/netaxis/backend/src/vault/vault.module.ts`
 
 ```typescript
 import { Module, Global } from '@nestjs/common';
@@ -1107,7 +1107,7 @@ export class VaultModule {}
 
 #### 4.1.6 Update Configuration to Use Vault
 
-**File:** `/var/www/wancom/backend/src/config/configuration.ts`
+**File:** `/var/www/netaxis/backend/src/config/configuration.ts`
 
 ```typescript
 import { VaultService } from '../vault/vault.service';
@@ -1144,7 +1144,7 @@ export default async (vaultService?: VaultService) => {
 
 #### 4.1.7 Update Environment Variables
 
-**File:** `/var/www/wancom/backend/.env`
+**File:** `/var/www/netaxis/backend/.env`
 
 ```bash
 # Remove all secrets from .env and replace with Vault config:
@@ -1175,7 +1175,7 @@ docker-compose logs -f backend | grep -i vault
 
 Create automated rotation using cron jobs:
 
-**File:** `/var/www/wancom/scripts/rotate-secrets.sh`
+**File:** `/var/www/netaxis/scripts/rotate-secrets.sh`
 
 ```bash
 #!/bin/bash
@@ -1199,7 +1199,7 @@ generate_secret() {
 # Rotate Network API Key
 echo "Rotating Network API Key..."
 NEW_NETWORK_KEY=$(generate_secret)
-vault kv put wancom/network api_key="$NEW_NETWORK_KEY"
+vault kv put netaxis/network api_key="$NEW_NETWORK_KEY"
 
 # Restart network service
 docker-compose restart network-service
@@ -1207,11 +1207,11 @@ docker-compose restart network-service
 # Rotate RADIUS Shared Secret (requires NAS reconfiguration)
 echo "Rotating RADIUS Shared Secret..."
 NEW_RADIUS_SECRET=$(generate_secret)
-vault kv put wancom/radius shared_secret="$NEW_RADIUS_SECRET"
+vault kv put netaxis/radius shared_secret="$NEW_RADIUS_SECRET"
 echo "⚠️ WARNING: Update NAS devices with new RADIUS secret: $NEW_RADIUS_SECRET"
 
 # Log rotation event
-echo "$(date -Iseconds) - Secrets rotated successfully" >> /var/log/wancom-secrets-rotation.log
+echo "$(date -Iseconds) - Secrets rotated successfully" >> /var/log/netaxis-secrets-rotation.log
 
 echo "✅ Secret rotation complete"
 ```
@@ -1223,7 +1223,7 @@ echo "✅ Secret rotation complete"
 crontab -e
 
 # Add (runs first day of Jan, Apr, Jul, Oct at 2 AM):
-0 2 1 */3 * /var/www/wancom/scripts/rotate-secrets.sh
+0 2 1 */3 * /var/www/netaxis/scripts/rotate-secrets.sh
 ```
 
 ### 4.3 Compliance Verification
@@ -1298,7 +1298,7 @@ crontab -e
 
 ### 5.2 CDR Retention Database Schema
 
-**File:** `/var/www/wancom/supabase/migrations/20250130_lawful_intercept.sql`
+**File:** `/var/www/netaxis/supabase/migrations/20250130_lawful_intercept.sql`
 
 ```sql
 -- =====================================================================
@@ -1712,7 +1712,7 @@ ORDER BY valid_until ASC;
 
 ### 5.3 LEA Portal Implementation
 
-**File:** `/var/www/wancom/backend/src/lawful-intercept/li.module.ts`
+**File:** `/var/www/netaxis/backend/src/lawful-intercept/li.module.ts`
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -1730,7 +1730,7 @@ import { AuditService } from './audit.service';
 export class LawfulInterceptModule {}
 ```
 
-**File:** `/var/www/wancom/backend/src/lawful-intercept/li.service.ts`
+**File:** `/var/www/netaxis/backend/src/lawful-intercept/li.service.ts`
 
 ```typescript
 import { Injectable, ForbiddenException, Logger } from '@nestjs/common';
@@ -2043,7 +2043,7 @@ Supabase supports TOTP-based MFA out of the box.
 
 **Step 2: Implement MFA Enrollment Flow**
 
-**File:** `/var/www/wancom/backend/src/auth/mfa.service.ts`
+**File:** `/var/www/netaxis/backend/src/auth/mfa.service.ts`
 
 ```typescript
 import { Injectable, BadRequestException, Logger } from '@nestjs/common';
@@ -2180,7 +2180,7 @@ export class MfaService {
 
 **Step 3: Enforce MFA for Admin Accounts**
 
-**File:** `/var/www/wancom/backend/src/common/guards/mfa-required.guard.ts`
+**File:** `/var/www/netaxis/backend/src/common/guards/mfa-required.guard.ts`
 
 ```typescript
 import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
@@ -2229,7 +2229,7 @@ export class MfaRequiredGuard implements CanActivate {
 
 **Step 4: Apply MFA Guard to Admin Routes**
 
-**File:** `/var/www/wancom/backend/src/admin/admin.controller.ts`
+**File:** `/var/www/netaxis/backend/src/admin/admin.controller.ts`
 
 ```typescript
 import { Controller, Get, UseGuards } from '@nestjs/common';
@@ -2247,33 +2247,33 @@ export class AdminController {
 
 ```bash
 # 1. Login as admin user
-curl -X POST https://api.wancom.co.za/api/auth/login \
+curl -X POST https://api.netaxis.co.za/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@wancom.co.za","password":"password"}'
+  -d '{"email":"admin@netaxis.co.za","password":"password"}'
 
 # Save access_token
 
 # 2. Try to access admin endpoint WITHOUT MFA
 curl -H "Authorization: Bearer <access_token>" \
-  https://api.wancom.co.za/api/admin/dashboard
+  https://api.netaxis.co.za/api/admin/dashboard
 
 # Expected: 403 Forbidden - "MFA is required for admin accounts"
 
 # 3. Enroll in MFA
-curl -X POST https://api.wancom.co.za/api/auth/mfa/enroll \
+curl -X POST https://api.netaxis.co.za/api/auth/mfa/enroll \
   -H "Authorization: Bearer <access_token>"
 
 # Returns QR code - scan with Google Authenticator / Authy
 
 # 4. Verify enrollment with first code
-curl -X POST https://api.wancom.co.za/api/auth/mfa/verify \
+curl -X POST https://api.netaxis.co.za/api/auth/mfa/verify \
   -H "Authorization: Bearer <access_token>" \
   -H "Content-Type: application/json" \
   -d '{"factorId":"<factor_id>","code":"123456"}'
 
 # 5. Now admin endpoints work
 curl -H "Authorization: Bearer <access_token>" \
-  https://api.wancom.co.za/api/admin/dashboard
+  https://api.netaxis.co.za/api/admin/dashboard
 
 # Expected: 200 OK
 ```
@@ -2293,13 +2293,13 @@ curl -H "Authorization: Bearer <access_token>" \
 #### 6.2.1 Install Jose Library
 
 ```bash
-cd /var/www/wancom/backend
+cd /var/www/netaxis/backend
 npm install --save jose
 ```
 
 #### 6.2.2 Create JWKS JWT Service
 
-**File:** `/var/www/wancom/backend/src/auth/jwks-jwt.service.ts`
+**File:** `/var/www/netaxis/backend/src/auth/jwks-jwt.service.ts`
 
 ```typescript
 import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
@@ -2386,7 +2386,7 @@ export class JwksJwtService {
 
 #### 6.2.3 Update Guard to Use JWKS
 
-**File:** `/var/www/wancom/backend/src/common/guards/supabase-jwt.guard.ts`
+**File:** `/var/www/netaxis/backend/src/common/guards/supabase-jwt.guard.ts`
 
 ```typescript
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
@@ -2449,7 +2449,7 @@ export class SupabaseJwtGuard implements CanActivate {
 
 #### 6.3.1 Create Session Management Table
 
-**File:** `/var/www/wancom/supabase/migrations/20250131_session_management.sql`
+**File:** `/var/www/netaxis/supabase/migrations/20250131_session_management.sql`
 
 ```sql
 -- Active sessions tracking
@@ -2583,7 +2583,7 @@ FOR EACH ROW EXECUTE FUNCTION invalidate_sessions_on_password_change();
 
 #### 6.3.2 Session Management Service
 
-**File:** `/var/www/wancom/backend/src/auth/session.service.ts`
+**File:** `/var/www/netaxis/backend/src/auth/session.service.ts`
 
 ```typescript
 import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
@@ -2744,7 +2744,7 @@ export class SessionService {
 
 #### 6.4.1 Create RLS Policies for Admin Access
 
-**File:** `/var/www/wancom/supabase/migrations/20250131_admin_rls.sql`
+**File:** `/var/www/netaxis/supabase/migrations/20250131_admin_rls.sql`
 
 ```sql
 -- =====================================================================
@@ -2946,7 +2946,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER STABLE;
 
 #### 6.4.2 Update Backend to Remove Application-Level Checks
 
-**File:** `/var/www/wancom/backend/src/admin/admin.service.ts`
+**File:** `/var/www/netaxis/backend/src/admin/admin.service.ts`
 
 ```typescript
 // OLD CODE (application-level check):
@@ -3014,13 +3014,13 @@ async getSubscriberDetail(userId: string, customerId: string) {
 #### 7.1.1 Install Validation Libraries
 
 ```bash
-cd /var/www/wancom/backend
+cd /var/www/netaxis/backend
 npm install --save class-validator class-transformer
 ```
 
 #### 7.1.2 Create Comprehensive DTOs
 
-**File:** `/var/www/wancom/backend/src/admin/dto/search-audit-logs.dto.ts`
+**File:** `/var/www/netaxis/backend/src/admin/dto/search-audit-logs.dto.ts`
 
 ```typescript
 import { IsOptional, IsString, IsDateString, IsIn, IsInt, Min, Max, Matches } from 'class-validator';
@@ -3064,7 +3064,7 @@ export class SearchAuditLogsDto {
 }
 ```
 
-**File:** `/var/www/wancom/backend/src/network/dto/provision-onu.dto.ts`
+**File:** `/var/www/netaxis/backend/src/network/dto/provision-onu.dto.ts`
 
 ```typescript
 import { IsString, IsUUID, IsInt, Min, Max, Matches, IsIP, IsOptional } from 'class-validator';
@@ -3108,7 +3108,7 @@ export class ProvisionOnuDto {
 
 #### 7.1.3 Enable Global Validation Pipe
 
-**File:** `/var/www/wancom/backend/src/main.ts`
+**File:** `/var/www/netaxis/backend/src/main.ts`
 
 ```typescript
 import { NestFactory } from '@nestjs/core';
@@ -3164,7 +3164,7 @@ const { data } = await client
 
 #### 7.2.1 Create IP Allowlist Middleware
 
-**File:** `/var/www/wancom/backend/src/common/middleware/webhook-ip-allowlist.middleware.ts`
+**File:** `/var/www/netaxis/backend/src/common/middleware/webhook-ip-allowlist.middleware.ts`
 
 ```typescript
 import { Injectable, NestMiddleware, ForbiddenException, Logger } from '@nestjs/common';
@@ -3264,7 +3264,7 @@ export class WebhookIpAllowlistMiddleware implements NestMiddleware {
 
 #### 7.2.2 Apply Middleware to Webhook Routes
 
-**File:** `/var/www/wancom/backend/src/payment/payment.module.ts`
+**File:** `/var/www/netaxis/backend/src/payment/payment.module.ts`
 
 ```typescript
 import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
@@ -3288,7 +3288,7 @@ export class PaymentModule {
 #### 7.2.3 Install IP Range Check Library
 
 ```bash
-cd /var/www/wancom/backend
+cd /var/www/netaxis/backend
 npm install --save ip-range-check
 ```
 
@@ -3301,7 +3301,7 @@ npm install --save ip-range-check
 
 #### 7.3.1 Create Request Signing Utility
 
-**File:** `/var/www/wancom/backend/src/common/utils/request-signing.util.ts`
+**File:** `/var/www/netaxis/backend/src/common/utils/request-signing.util.ts`
 
 ```typescript
 import { createHmac } from 'crypto';
@@ -3377,7 +3377,7 @@ export class RequestSigningUtil {
 
 #### 7.3.2 Apply to Network Service API
 
-**File:** `/var/www/wancom/network-service/app/middleware/request_signing.py`
+**File:** `/var/www/netaxis/network-service/app/middleware/request_signing.py`
 
 ```python
 """Request signing middleware for internal API authentication"""
@@ -3474,14 +3474,14 @@ class RequestSigningMiddleware:
             await response(scope, receive, send)
 ```
 
-**File:** `/var/www/wancom/network-service/app/main.py`
+**File:** `/var/www/netaxis/network-service/app/main.py`
 
 ```python
 from fastapi import FastAPI
 from app.middleware.request_signing import RequestSigningMiddleware
 from app.config import get_settings
 
-app = FastAPI(title="WANCOM Network Integration Service")
+app = FastAPI(title="NetAxis Network Integration Service")
 
 settings = get_settings()
 
@@ -3496,7 +3496,7 @@ app.add_middleware(
 
 #### 7.3.3 Update Backend to Sign Requests
 
-**File:** `/var/www/wancom/backend/src/network/network.service.ts`
+**File:** `/var/www/netaxis/backend/src/network/network.service.ts`
 
 ```typescript
 import { Injectable, Logger } from '@nestjs/common';
@@ -3649,12 +3649,12 @@ POSTGRES_PORT=5432
 ############
 # API
 ############
-API_EXTERNAL_URL=https://api.wancom.pk
+API_EXTERNAL_URL=https://api.netaxis.pk
 
 ############
 # Auth
 ############
-SITE_URL=https://portal.wancom.pk
+SITE_URL=https://portal.netaxis.pk
 ADDITIONAL_REDIRECT_URLS=
 JWT_EXPIRY=3600
 DISABLE_SIGNUP=false
@@ -3662,17 +3662,17 @@ DISABLE_SIGNUP=false
 ############
 # Email
 ############
-SMTP_ADMIN_EMAIL=admin@wancom.pk
+SMTP_ADMIN_EMAIL=admin@netaxis.pk
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=<your_email>
 SMTP_PASS=<your_password>
-SMTP_SENDER_NAME=WANCOM ISP
+SMTP_SENDER_NAME=NetAxis ISP
 
 ############
 # Studio
 ############
-STUDIO_DEFAULT_ORGANIZATION=WANCOM
+STUDIO_DEFAULT_ORGANIZATION=NetAxis
 STUDIO_DEFAULT_PROJECT=Production
 
 ############
@@ -3739,7 +3739,7 @@ psql "postgresql://postgres:<local_password>@localhost:5432/postgres" \
 
 ### 8.4 Update Application Configuration
 
-**File:** `/var/www/wancom/backend/.env`
+**File:** `/var/www/netaxis/backend/.env`
 
 ```bash
 # OLD (Cloud Supabase):
@@ -3747,15 +3747,15 @@ psql "postgresql://postgres:<local_password>@localhost:5432/postgres" \
 # SUPABASE_ANON_KEY=eyJhbG...
 
 # NEW (Local Supabase in Pakistan):
-SUPABASE_URL=https://api.wancom.pk
+SUPABASE_URL=https://api.netaxis.pk
 SUPABASE_ANON_KEY=<new_anon_key_from_local_deployment>
 SUPABASE_SERVICE_ROLE_KEY=<new_service_role_key>
-SUPABASE_JWKS_URL=https://api.wancom.pk/auth/v1/keys
+SUPABASE_JWKS_URL=https://api.netaxis.pk/auth/v1/keys
 ```
 
 ### 8.5 Geo-Redundant Backup
 
-**File:** `/var/www/wancom/scripts/geo-backup.sh`
+**File:** `/var/www/netaxis/scripts/geo-backup.sh`
 
 ```bash
 #!/bin/bash
@@ -3769,13 +3769,13 @@ DB_NAME="postgres"
 DB_USER="postgres"
 DB_PASS="${POSTGRES_PASSWORD}"
 
-BACKUP_DIR="/var/backups/wancom"
+BACKUP_DIR="/var/backups/netaxis"
 ENCRYPTION_KEY="${BACKUP_ENCRYPTION_KEY}" # Store in Vault
-REMOTE_BACKUP_HOST="backup.wancom.pk"      # Secondary DC in Pakistan
-REMOTE_BACKUP_PATH="/backups/wancom"
+REMOTE_BACKUP_HOST="backup.netaxis.pk"      # Secondary DC in Pakistan
+REMOTE_BACKUP_PATH="/backups/netaxis"
 
 DATE=$(date +%Y%m%d_%H%M%S)
-BACKUP_FILE="wancom_backup_${DATE}.sql.gz.enc"
+BACKUP_FILE="netaxis_backup_${DATE}.sql.gz.enc"
 
 # Create backup directory
 mkdir -p "${BACKUP_DIR}"
@@ -3816,7 +3816,7 @@ else
 fi
 
 # Cleanup old backups (keep last 30 days)
-find "${BACKUP_DIR}" -name "wancom_backup_*.sql.gz.enc" -mtime +30 -delete
+find "${BACKUP_DIR}" -name "netaxis_backup_*.sql.gz.enc" -mtime +30 -delete
 
 echo "Backup complete: ${BACKUP_FILE}"
 ```
@@ -3824,7 +3824,7 @@ echo "Backup complete: ${BACKUP_FILE}"
 **Crontab (Daily at 2 AM):**
 
 ```bash
-0 2 * * * /var/www/wancom/scripts/geo-backup.sh >> /var/log/wancom-backup.log 2>&1
+0 2 * * * /var/www/netaxis/scripts/geo-backup.sh >> /var/log/netaxis-backup.log 2>&1
 ```
 
 ### 8.6 Data Localization Compliance
@@ -3852,7 +3852,7 @@ echo "Backup complete: ${BACKUP_FILE}"
 
 #### 9.1.1 Dual Authorization Workflow
 
-**File:** `/var/www/wancom/backend/src/network/dual-auth.service.ts`
+**File:** `/var/www/netaxis/backend/src/network/dual-auth.service.ts`
 
 ```typescript
 import { Injectable, ForbiddenException, Logger } from '@nestjs/common';
@@ -4012,7 +4012,7 @@ export class DualAuthService {
 
 #### 9.1.2 Database Schema for Dual Auth
 
-**File:** `/var/www/wancom/supabase/migrations/20250201_dual_auth.sql`
+**File:** `/var/www/netaxis/supabase/migrations/20250201_dual_auth.sql`
 
 ```sql
 CREATE TABLE dual_auth_requests (
@@ -4062,7 +4062,7 @@ $$ LANGUAGE plpgsql;
 
 #### 9.1.3 Update Provisioning Flow
 
-**File:** `/var/www/wancom/backend/src/network/network.controller.ts`
+**File:** `/var/www/netaxis/backend/src/network/network.controller.ts`
 
 ```typescript
 import { Controller, Post, Body, UseGuards, Get, Param, Patch } from '@nestjs/common';
@@ -4159,7 +4159,7 @@ export class NetworkController {
 
 #### 9.2.1 Input Sanitization for OLT Commands
 
-**File:** `/var/www/wancom/network-service/app/security/input_validator.py`
+**File:** `/var/www/netaxis/network-service/app/security/input_validator.py`
 
 ```python
 """Input validation and sanitization for OLT commands"""
@@ -4246,7 +4246,7 @@ class OltInputValidator:
 
 #### 9.2.2 Apply Validation to OLT Drivers
 
-**File:** `/var/www/wancom/network-service/app/drivers/huawei_driver.py`
+**File:** `/var/www/netaxis/network-service/app/drivers/huawei_driver.py`
 
 ```python
 from app.security.input_validator import OltInputValidator
@@ -4356,7 +4356,7 @@ class HuaweiOltDriver:
 
 #### 10.1.1 Install ModSecurity with Nginx
 
-**File:** `/var/www/wancom/infra/nginx/Dockerfile.waf`
+**File:** `/var/www/netaxis/infra/nginx/Dockerfile.waf`
 
 ```dockerfile
 FROM nginx:alpine
@@ -4404,10 +4404,10 @@ CMD ["nginx", "-g", "daemon off;"]
 
 #### 10.1.2 ModSecurity Configuration
 
-**File:** `/var/www/wancom/infra/nginx/modsecurity.conf`
+**File:** `/var/www/netaxis/infra/nginx/modsecurity.conf`
 
 ```nginx
-# ModSecurity Configuration for WANCOM ISP
+# ModSecurity Configuration for NetAxis ISP
 # OWASP CRS Protection
 
 SecRuleEngine On
@@ -4429,7 +4429,7 @@ SecAuditLogType Serial
 Include /etc/nginx/coreruleset/crs-setup.conf
 Include /etc/nginx/coreruleset/rules/*.conf
 
-# Custom rules for WANCOM
+# Custom rules for NetAxis
 SecRule REQUEST_URI "@contains /api/admin" \
     "id:1000,phase:1,deny,status:403,msg:'Admin path access attempt from untrusted IP'"
 
@@ -4443,7 +4443,7 @@ SecRule IP:REQUEST_COUNT "@gt 100" \
 
 ### 10.2 Nginx Security Headers
 
-**File:** `/var/www/wancom/infra/nginx/default.conf`
+**File:** `/var/www/netaxis/infra/nginx/default.conf`
 
 ```nginx
 # Security headers configuration
@@ -4454,14 +4454,14 @@ add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 add_header Permissions-Policy "geolocation=(), microphone=(), camera=()" always;
 
 # Content Security Policy
-add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.wancom.pk; frame-ancestors 'self';" always;
+add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.netaxis.pk; frame-ancestors 'self';" always;
 
 # HSTS (HTTP Strict Transport Security)
 add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
 
 server {
     listen 443 ssl http2;
-    server_name api.wancom.pk;
+    server_name api.netaxis.pk;
 
     ssl_certificate /etc/nginx/certs/fullchain.pem;
     ssl_certificate_key /etc/nginx/certs/privkey.pem;
@@ -4493,7 +4493,7 @@ server {
 
 #### 10.3.1 Non-Root User in Dockerfiles
 
-**File:** `/var/www/wancom/backend/Dockerfile`
+**File:** `/var/www/netaxis/backend/Dockerfile`
 
 ```dockerfile
 FROM node:20-alpine
@@ -4534,7 +4534,7 @@ CMD ["node", "dist/main.js"]
 
 #### 10.3.2 Resource Limits in Docker Compose
 
-**File:** `/var/www/wancom/docker-compose.yml`
+**File:** `/var/www/netaxis/docker-compose.yml`
 
 ```yaml
 version: "3.9"
@@ -4591,10 +4591,10 @@ services:
 
 ### 11.2 Incident Response Plan
 
-**File:** `/var/www/wancom/docs/INCIDENT_RESPONSE_PLAN.md`
+**File:** `/var/www/netaxis/docs/INCIDENT_RESPONSE_PLAN.md`
 
 ```markdown
-# WANCOM ISP - Incident Response Plan
+# NetAxis ISP - Incident Response Plan
 # CTDISR IR-1 Compliant
 
 ## 1. INCIDENT CLASSIFICATION
@@ -4703,7 +4703,7 @@ services:
 
 ### 12.1 Payment Log Redaction
 
-**File:** `/var/www/wancom/backend/src/common/interceptors/logging.interceptor.ts`
+**File:** `/var/www/netaxis/backend/src/common/interceptors/logging.interceptor.ts`
 
 ```typescript
 import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Logger } from '@nestjs/common';
@@ -4895,7 +4895,7 @@ Week 13: REMAINING PHASES (7-10)
 
 ## CONCLUSION
 
-This comprehensive remediation plan provides **production-ready code, configurations, and documentation** to bring WANCOM ISP from **72/100 (HIGH RISK)** to **92/100 (LOW RISK)** in 90 days.
+This comprehensive remediation plan provides **production-ready code, configurations, and documentation** to bring NetAxis ISP from **72/100 (HIGH RISK)** to **92/100 (LOW RISK)** in 90 days.
 
 ### Key Achievements:
 

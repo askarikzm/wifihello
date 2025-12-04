@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Security Events Service
+ * NetAxis ISP - CTDISR-2025 Security Events Service
  * Handles security event logging and SIEM integration
  */
 

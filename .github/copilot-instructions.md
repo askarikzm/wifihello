@@ -1,4 +1,4 @@
-# WANCOM ISP Customer Portal - Copilot Instructions
+# NetAxis ISP Customer Portal - Copilot Instructions
 
 ## Project Overview
 Multi-service monorepo for ISP operations including customer portal, billing, payments, RADIUS AAA, and OLT/ONU management.

@@ -1,4 +1,4 @@
-# WANCOM Architecture Overview
+# NetAxis Architecture Overview
 
 ## High-Level View
 

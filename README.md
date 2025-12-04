@@ -1,6 +1,6 @@
-# WANCOM ISP Customer Portal Platform
+# NetAxis ISP Customer Portal Platform
 
-Enterprise-grade ISP management platform for WANCOM's operations, covering customer self-care, billing, payments, OLT/ONU telemetry, RADIUS AAA automation, and comprehensive admin tools. The repository is structured as a multi-service monorepo that can be deployed via Docker Compose or split into independent services for Kubernetes.
+Enterprise-grade ISP management platform for NetAxis operations, covering customer self-care, billing, payments, OLT/ONU telemetry, RADIUS AAA automation, and comprehensive admin tools. The repository is structured as a multi-service monorepo that can be deployed via Docker Compose or split into independent services for Kubernetes.
 
 ## 🚀 Features
 
@@ -97,8 +97,8 @@ infra/                 Infrastructure:
 
 1. **Clone and configure:**
    ```bash
-   git clone https://github.com/wancom/portal.git
-   cd portal
+   git clone https://github.com/bilalhzaidi/NetAxis.git
+   cd NetAxis
    cp .env.example .env
    # Edit .env with your Supabase credentials and gateway keys
    ```
@@ -195,4 +195,4 @@ The stack includes:
 
 ## 📄 License
 
-Proprietary - WANCOM Technologies (Pty) Ltd
+Proprietary - NetAxis Technologies

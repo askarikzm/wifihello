@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Certificate Service
+ * NetAxis ISP - CTDISR-2025 Certificate Service
  * X.509 Certificate management and lifecycle
  */
 

@@ -1,5 +1,5 @@
 -- ============================================
--- WANCOM ISP Portal - PTA Audit Export Templates Seed
+-- NetAxis ISP Portal - PTA Audit Export Templates Seed
 -- Seeds standard PTA-compliant export templates
 -- ============================================
 
@@ -396,7 +396,7 @@ SELECT
     '02:00:00',
     'Asia/Karachi',
     false,  -- Disabled by default, enable when ready
-    ARRAY['compliance@wancom.pk'],
+    ARRAY['compliance@netaxis.pk'],
     '00000000-0000-0000-0000-000000000000'::uuid
 FROM audit_export.templates t
 WHERE t.code = 'IPDR_DAILY'

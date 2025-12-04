@@ -1,5 +1,5 @@
 -- =====================================================
--- WANCOM ISP - Link Current User to Demo Data
+-- NetAxis ISP - Link Current User to Demo Data
 -- =====================================================
 -- Run this AFTER logging in to link your user to the demo subscriber
 -- Replace YOUR_USER_ID_HERE with your actual Supabase Auth user ID

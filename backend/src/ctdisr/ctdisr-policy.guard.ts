@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Policy Guard
+ * NetAxis ISP - CTDISR-2025 Policy Guard
  * Enforces CTDISR policies before request handling
  */
 

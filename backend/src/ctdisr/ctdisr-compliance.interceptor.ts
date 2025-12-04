@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Compliance Interceptor
+ * NetAxis ISP - CTDISR-2025 Compliance Interceptor
  * Logs all data access and configuration changes for audit trail
  */
 

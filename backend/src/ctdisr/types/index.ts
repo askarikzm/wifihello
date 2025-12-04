@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Compliance Types
+ * NetAxis ISP - CTDISR-2025 Compliance Types
  * Critical Telecom Data & Infrastructure Security Regulations 2025
  */
 

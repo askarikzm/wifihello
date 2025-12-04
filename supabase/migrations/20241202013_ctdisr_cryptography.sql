@@ -1,4 +1,4 @@
--- WANCOM ISP - CTDISR-2025 Cryptography Framework
+-- NetAxis ISP - CTDISR-2025 Cryptography Framework
 -- Key Management, Encryption & Certificate Management
 
 -- =====================================================

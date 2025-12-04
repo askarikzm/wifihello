@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Logging Types
+ * NetAxis ISP - CTDISR-2025 Logging Types
  */
 
 // ============================================

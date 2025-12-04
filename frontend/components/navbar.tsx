@@ -32,7 +32,7 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/dashboard" className="flex items-center gap-2">
             <Wifi className="h-8 w-8 text-blue-500" />
-            <span className="text-xl font-bold text-white">WANCOM</span>
+            <span className="text-xl font-bold text-white">NetAxis</span>
           </Link>
 
           {/* Desktop Navigation */}

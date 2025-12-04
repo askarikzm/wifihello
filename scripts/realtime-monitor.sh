@@ -1,25 +1,25 @@
 #!/bin/bash
 
 ###############################################################################
-# WANCOM Real-time Monitor with Auto-Alert
+# NetAxis Real-time Monitor with Auto-Alert
 # Monitors CTO activity and highlights issues in real-time
 ###############################################################################
 
-LOG_FILE="/var/log/nginx/wancom_access.log"
-WANCOM_IP="119.152.232.80"
+LOG_FILE="/var/log/nginx/netaxis_access.log"
+NetAxis_IP="119.152.232.80"
 
 echo "╔═══════════════════════════════════════════════════════════════════╗"
-echo "║      WANCOM CTO ACTIVITY MONITOR - Real-time with Alerts          ║"
+echo "║      NetAxis CTO ACTIVITY MONITOR - Real-time with Alerts          ║"
 echo "╚═══════════════════════════════════════════════════════════════════╝"
 echo ""
-echo "🎯 Watching for WANCOM CTO (119.152.232.80)..."
+echo "🎯 Watching for NetAxis CTO (119.152.232.80)..."
 echo ""
 printf "%-20s %-10s %-50s %-10s\n" "Time" "Status" "Path" "Alert"
 printf "%-20s %-10s %-50s %-10s\n" "────────────────────" "──────────" "──────────────────────────────────────────────────" "──────────"
 
 tail -f "$LOG_FILE" | while read -r line; do
-    # Only show WANCOM customer activity
-    if ! echo "$line" | grep -q "$WANCOM_IP"; then
+    # Only show NetAxis customer activity
+    if ! echo "$line" | grep -q "$NetAxis_IP"; then
         continue
     fi
 

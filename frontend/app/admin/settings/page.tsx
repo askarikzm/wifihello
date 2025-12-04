@@ -36,12 +36,12 @@ export default function SettingsPage() {
 
   // Company settings state
   const [companySettings, setCompanySettings] = useState({
-    companyName: 'WANCOM Internet Services',
-    email: 'support@wancom.pk',
+    companyName: 'NetAxis Internet Services',
+    email: 'support@netaxis.pk',
     phone: '+92 300 1234567',
     address: 'Plot 123, Blue Area, Islamabad',
     taxId: '1234567-8',
-    website: 'https://wancom.pk',
+    website: 'https://netaxis.pk',
   });
 
   // Billing settings state

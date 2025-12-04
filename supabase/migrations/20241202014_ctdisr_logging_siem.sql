@@ -1,4 +1,4 @@
--- WANCOM ISP - CTDISR-2025 Logging & SIEM Integration
+-- NetAxis ISP - CTDISR-2025 Logging & SIEM Integration
 -- Comprehensive audit logging, monitoring, and SIEM forwarding
 
 -- =====================================================

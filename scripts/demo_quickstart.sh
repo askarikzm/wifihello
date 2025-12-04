@@ -1,11 +1,11 @@
 #!/bin/bash
-# WANCOM ISP Customer Portal - Demo Quick Start Script
+# NetAxis ISP Customer Portal - Demo Quick Start Script
 # ======================================================
 # This script prepares the environment for a live demo
 
 set -e
 
-echo "🚀 WANCOM ISP Customer Portal - Demo Setup"
+echo "🚀 NetAxis ISP Customer Portal - Demo Setup"
 echo "=============================================="
 echo ""
 
@@ -126,7 +126,7 @@ echo "=============================================="
 echo -e "${GREEN}🎉 Demo environment is ready!${NC}"
 echo ""
 echo "Demo Credentials:"
-echo "  Email: ahmed.hassan@demo.wancom.pk"
+echo "  Email: ahmed.hassan@demo.netaxis.pk"
 echo "  (Create via Supabase Auth or Magic Link)"
 echo ""
 echo "Demo Customer ID: f47ac10b-58cc-4372-a567-0e02b2c3d479"

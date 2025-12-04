@@ -1,5 +1,5 @@
 -- ============================================
--- WANCOM ISP - CTDISR-2025 ASSET MANAGEMENT SCHEMA
+-- NetAxis ISP - CTDISR-2025 ASSET MANAGEMENT SCHEMA
 -- Section 4: Asset Management & Classification
 -- Migration: 20241202011_ctdisr_asset_management.sql
 -- ============================================

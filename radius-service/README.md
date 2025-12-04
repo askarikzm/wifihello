@@ -1,6 +1,6 @@
-# WANCOM RADIUS AAA Service
+# NetAxis RADIUS AAA Service
 
-Enterprise RADIUS Authentication, Authorization, and Accounting service for WANCOM ISP.
+Enterprise RADIUS Authentication, Authorization, and Accounting service for NetAxis ISP.
 
 ## Features
 
@@ -42,8 +42,8 @@ Environment variables:
 python -m app.main
 
 # Docker
-docker build -t wancom-radius .
-docker run -p 1812:1812/udp -p 1813:1813/udp --env-file .env wancom-radius
+docker build -t netaxis-radius .
+docker run -p 1812:1812/udp -p 1813:1813/udp --env-file .env netaxis-radius
 ```
 
 ## Testing

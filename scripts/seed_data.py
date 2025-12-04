@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 import psycopg
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+psycopg://wancom:changeme@localhost:5432/wancom_core")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+psycopg://netaxis:changeme@localhost:5432/netaxis_core")
 
 SUBSCRIBERS = [
     {

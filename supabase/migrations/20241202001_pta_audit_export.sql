@@ -1,5 +1,5 @@
 -- ============================================
--- WANCOM ISP Portal - PTA Audit Log Exporter
+-- NetAxis ISP Portal - PTA Audit Log Exporter
 -- Migration: 20241202001_pta_audit_export.sql
 -- Description: Automated PTA-compliant audit export system
 -- Regulatory: PTRA 1996, CTDISR 2020, PTA Security Guidelines

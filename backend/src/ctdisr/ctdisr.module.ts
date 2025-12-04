@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Module
+ * NetAxis ISP - CTDISR-2025 Module
  * Critical Telecom Data & Infrastructure Security Regulations 2025
  */
 

@@ -1,17 +1,17 @@
 #!/bin/bash
 
 ###############################################################################
-# WANCOM Live Activity Monitor
+# NetAxis Live Activity Monitor
 # Shows real-time visitor activity as it happens
 # Usage: ./watch-live.sh
 # Press Ctrl+C to stop
 ###############################################################################
 
-LOG_FILE="/var/log/nginx/wancom_access.log"
+LOG_FILE="/var/log/nginx/netaxis_access.log"
 
 clear
 echo "╔═══════════════════════════════════════════════════════════════════╗"
-echo "║           WANCOM LIVE ACTIVITY MONITOR                            ║"
+echo "║           NetAxis LIVE ACTIVITY MONITOR                            ║"
 echo "║           Press Ctrl+C to stop                                    ║"
 echo "╚═══════════════════════════════════════════════════════════════════╝"
 echo ""

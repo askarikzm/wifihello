@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Key Rotation Cron
+ * NetAxis ISP - CTDISR-2025 Key Rotation Cron
  * Automated key rotation scheduler
  */
 

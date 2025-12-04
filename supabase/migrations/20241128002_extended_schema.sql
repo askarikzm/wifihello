@@ -1,5 +1,5 @@
 -- ============================================
--- WANCOM ISP Portal - Extended Schema Migration
+-- NetAxis ISP Portal - Extended Schema Migration
 -- Support Tickets, RADIUS, Notifications, Admin RPCs
 -- ============================================
 

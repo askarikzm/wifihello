@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 SIEM Forwarder Service
+ * NetAxis ISP - CTDISR-2025 SIEM Forwarder Service
  * Forward security events to SIEM systems
  */
 
@@ -47,7 +47,7 @@ export class SiemForwarderService implements OnModuleInit {
         enabled: true,
         endpoint: esEndpoint,
         apiKey: this.configService.get<string>('SIEM_ELASTICSEARCH_API_KEY'),
-        index: this.configService.get<string>('SIEM_ELASTICSEARCH_INDEX') || 'wancom-security',
+        index: this.configService.get<string>('SIEM_ELASTICSEARCH_INDEX') || 'netaxis-security',
         batchSize: 100,
         flushIntervalMs: 5000,
         retryDelayMs: 1000,
@@ -259,7 +259,7 @@ export class SiemForwarderService implements OnModuleInit {
       {
         ...item.payload,
         '@timestamp': new Date().toISOString(),
-        source: 'wancom-isp',
+        source: 'netaxis-isp',
       },
     ]);
 
@@ -325,7 +325,7 @@ export class SiemForwarderService implements OnModuleInit {
       try {
         await client.post('/services/collector/event', {
           index: config.index,
-          sourcetype: 'wancom:security',
+          sourcetype: 'netaxis:security',
           event: item.payload,
           time: Date.now() / 1000,
         });
@@ -366,7 +366,7 @@ export class SiemForwarderService implements OnModuleInit {
     }
 
     // Azure Log Analytics Data Collector API
-    const logType = 'WancomSecurityEvents';
+    const logType = 'NetAxisSecurityEvents';
     const body = JSON.stringify(items.map(i => i.payload));
     const contentLength = Buffer.byteLength(body, 'utf8');
     const date = new Date().toUTCString();

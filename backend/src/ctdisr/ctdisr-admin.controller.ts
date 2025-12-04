@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Admin Controller
+ * NetAxis ISP - CTDISR-2025 Admin Controller
  * Admin endpoints for compliance management
  */
 

@@ -12,7 +12,7 @@ export default function LandingPage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
               <Wifi className="w-8 h-8 text-blue-500" />
-              <span className="text-2xl font-bold text-white">WANCOM</span>
+              <span className="text-2xl font-bold text-white">NetAxis</span>
             </div>
             <div className="flex items-center gap-4">
               <Link
@@ -43,7 +43,7 @@ export default function LandingPage() {
               </span>
             </h1>
             <p className="text-xl text-slate-300 max-w-3xl mx-auto mb-10">
-              Experience lightning-fast fiber connectivity with WANCOM. Manage your account, 
+              Experience lightning-fast fiber connectivity with NetAxis. Manage your account, 
               view usage, pay bills, and get support - all from one unified portal.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -78,7 +78,7 @@ export default function LandingPage() {
               Everything You Need in One Portal
             </h2>
             <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-              Manage your WANCOM services with our comprehensive customer portal
+              Manage your NetAxis services with our comprehensive customer portal
             </p>
           </div>
 
@@ -153,10 +153,10 @@ export default function LandingPage() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
               <Wifi className="w-6 h-6 text-blue-500" />
-              <span className="text-xl font-bold text-white">WANCOM</span>
+              <span className="text-xl font-bold text-white">NetAxis</span>
             </div>
             <p className="text-slate-400 text-sm">
-              © {new Date().getFullYear()} WANCOM ISP. All rights reserved.
+              © {new Date().getFullYear()} NetAxis ISP. All rights reserved.
             </p>
             <div className="flex gap-6">
               <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">

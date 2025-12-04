@@ -54,11 +54,11 @@ export default function AdminLoginPage() {
   async function handleDemoAdminLogin() {
     setLoading(true);
     setError(null);
-    setEmail('admin@wancom.pk');
+    setEmail('admin@netaxis.pk');
     setPassword('@dmin123456');
     
     const { data, error } = await supabase.auth.signInWithPassword({ 
-      email: 'admin@wancom.pk', 
+      email: 'admin@netaxis.pk', 
       password: '@dmin123456' 
     });
     
@@ -104,7 +104,7 @@ export default function AdminLoginPage() {
           {/* Logo */}
           <div className="flex items-center justify-center gap-2 mb-2">
             <Shield className="w-8 h-8 text-orange-500" />
-            <span className="text-2xl font-bold text-white">WANCOM Admin</span>
+            <span className="text-2xl font-bold text-white">NetAxis Admin</span>
           </div>
 
           <div className="text-center">
@@ -117,7 +117,7 @@ export default function AdminLoginPage() {
               <label className="block text-sm font-medium text-slate-300 mb-1">Email</label>
               <input
                 className="w-full rounded-lg border border-slate-600 bg-slate-700/50 px-4 py-3 text-white placeholder-slate-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-colors"
-                placeholder="admin@wancom.pk"
+                placeholder="admin@netaxis.pk"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -184,7 +184,7 @@ export default function AdminLoginPage() {
           </p>
           <ol className="text-xs text-orange-200/80 space-y-1 list-decimal list-inside">
             <li>Go to Supabase Dashboard → Authentication → Users</li>
-            <li>Click &quot;Add User&quot; and create admin@wancom.pk</li>
+            <li>Click &quot;Add User&quot; and create admin@netaxis.pk</li>
             <li>After creation, click the user and edit user_metadata</li>
             <li>Add: <code className="bg-slate-800 px-1 rounded">{`{"role": "admin"}`}</code></li>
           </ol>

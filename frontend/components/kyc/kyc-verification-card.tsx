@@ -300,7 +300,7 @@ export function KycVerificationCard({ initialStatus }: Props) {
                   I consent to CNIC verification
                 </Label>
                 <p className="text-xs text-muted-foreground">
-                  I authorize WANCOM to verify my CNIC through NADRA Verisys for identity 
+                  I authorize NetAxis to verify my CNIC through NADRA Verisys for identity 
                   verification purposes as required by PTA regulations. My data will be 
                   processed securely and stored in compliance with applicable laws.
                 </p>

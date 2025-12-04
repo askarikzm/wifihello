@@ -47,7 +47,7 @@ export default Joi.object({
   SMS_PROVIDER: Joi.string().valid('clickatell', 'twilio', 'bulksms').default('clickatell'),
   SMS_API_KEY: Joi.string().allow(''),
   SMS_API_URL: Joi.string().uri().allow(''),
-  SMS_SENDER_ID: Joi.string().default('WANCOM'),
+  SMS_SENDER_ID: Joi.string().default('NetAxis'),
   
   // Email - SMTP
   EMAIL_PROVIDER: Joi.string().valid('smtp', 'sendgrid').default('smtp'),
@@ -61,11 +61,11 @@ export default Joi.object({
   SENDGRID_API_KEY: Joi.string().allow(''),
   
   // Email From
-  EMAIL_FROM_NAME: Joi.string().default('WANCOM ISP'),
-  EMAIL_FROM_ADDRESS: Joi.string().email().default('noreply@wancom.co.za'),
+  EMAIL_FROM_NAME: Joi.string().default('NetAxis ISP'),
+  EMAIL_FROM_ADDRESS: Joi.string().email().default('noreply@netaxis.co.za'),
   
   // Frontend URLs
-  FRONTEND_URL: Joi.string().uri().default('https://portal.wancom.co.za'),
+  FRONTEND_URL: Joi.string().uri().default('https://portal.netaxis.co.za'),
   FRONTEND_LOGIN_URL: Joi.string().uri().allow(''),
   FRONTEND_DASHBOARD_URL: Joi.string().uri().allow(''),
   FRONTEND_PAYMENT_URL: Joi.string().uri().allow(''),

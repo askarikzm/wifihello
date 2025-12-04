@@ -152,7 +152,7 @@ export class AuditExportGeneratorService {
     const filename = this.generateFilename(exportType, 'xlsx', timestamp);
     
     const workbook = new ExcelJS.Workbook();
-    workbook.creator = 'WANCOM ISP - PTA Audit Export';
+    workbook.creator = 'NetAxis ISP - PTA Audit Export';
     workbook.created = new Date();
     
     const sheet = workbook.addWorksheet('Audit Data');
@@ -197,7 +197,7 @@ export class AuditExportGeneratorService {
     metaSheet.addRow(['Generated At', timestamp]);
     metaSheet.addRow(['Total Records', data.length]);
     metaSheet.addRow(['Region Code', this.regionCode]);
-    metaSheet.addRow(['Generator', 'WANCOM ISP PTA Audit Exporter']);
+    metaSheet.addRow(['Generator', 'NetAxis ISP PTA Audit Exporter']);
 
     const buffer = await workbook.xlsx.writeBuffer();
 
@@ -245,7 +245,7 @@ export class AuditExportGeneratorService {
       doc.on('error', reject);
 
       // Header
-      doc.fontSize(16).fillColor('#1E3A5F').text('WANCOM ISP - PTA Audit Export', { align: 'center' });
+      doc.fontSize(16).fillColor('#1E3A5F').text('NetAxis ISP - PTA Audit Export', { align: 'center' });
       doc.moveDown(0.5);
       doc.fontSize(12).fillColor('#333').text(`Export Type: ${exportType}`, { align: 'center' });
       doc.fontSize(10).text(`Generated: ${timestamp} | Region: ${this.regionCode}`, { align: 'center' });
@@ -344,7 +344,7 @@ export class AuditExportGeneratorService {
     const manifest: FileManifest = {
       version: '1.0',
       generatedAt: generatedAt.toISOString(),
-      generator: 'WANCOM ISP PTA Audit Exporter v1.0',
+      generator: 'NetAxis ISP PTA Audit Exporter v1.0',
       exportRunId: run.id,
       exportType: run.exportType,
       dateRange: {
@@ -412,7 +412,7 @@ export class AuditExportGeneratorService {
   private generateReadme(manifest: FileManifest): string {
     return `
 ================================================================================
-WANCOM ISP - PTA AUDIT EXPORT BUNDLE
+NetAxis ISP - PTA AUDIT EXPORT BUNDLE
 ================================================================================
 
 Export Type:    ${manifest.exportType}
@@ -455,21 +455,21 @@ EXPORT RUN ID: ${manifest.exportRunId}
 
   /**
    * Generate standardized filename
-   * Format: WANCOM_<REGION>_AUDIT_<TYPE>_<YYYYMMDD>_<HHMMSS>.<ext>
+   * Format: NetAxis_<REGION>_AUDIT_<TYPE>_<YYYYMMDD>_<HHMMSS>.<ext>
    */
   private generateFilename(
     exportType: AuditExportType,
     extension: string,
     timestamp: string,
   ): string {
-    return `WANCOM_${this.regionCode}_AUDIT_${exportType}_${timestamp}.${extension}`;
+    return `NetAxis_${this.regionCode}_AUDIT_${exportType}_${timestamp}.${extension}`;
   }
 
   /**
    * Generate ZIP filename
    */
   private generateZipFilename(exportType: AuditExportType, timestamp: string): string {
-    return `WANCOM_${this.regionCode}_AUDIT_${exportType}_${timestamp}.zip`;
+    return `NetAxis_${this.regionCode}_AUDIT_${exportType}_${timestamp}.zip`;
   }
 
   /**

@@ -1,4 +1,4 @@
-# WANCOM ISP Portal - Full-Spectrum Security Audit Report
+# NetAxis ISP Portal - Full-Spectrum Security Audit Report
 
 ## Pakistani Regulatory Framework Compliance Assessment
 
@@ -386,8 +386,8 @@ This key bypasses ALL Row Level Security. Compromise equals full database access
 - **File:** `/.env`
 - **Description:** API keys are weak, predictable patterns:
 ```
-NETWORK_SERVICE_API_KEY=wancom_network_api_key_2024
-PAYMENT_WEBHOOK_SECRET=wancom_webhook_secret_2024
+NETWORK_SERVICE_API_KEY=netaxis_network_api_key_2024
+PAYMENT_WEBHOOK_SECRET=netaxis_webhook_secret_2024
 ```
 - **Remediation:** Generate cryptographically secure random keys (32+ bytes)
 - **Timeline:** 24 hours

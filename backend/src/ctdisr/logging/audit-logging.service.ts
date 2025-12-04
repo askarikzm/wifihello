@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Audit Logging Service
+ * NetAxis ISP - CTDISR-2025 Audit Logging Service
  * Comprehensive audit trail with hash chain and SIEM integration
  */
 
@@ -31,7 +31,7 @@ export class AuditLoggingService implements OnModuleInit {
       this.configService.get<string>('SUPABASE_URL'),
       this.configService.get<string>('SUPABASE_SERVICE_ROLE_KEY'),
     );
-    this.sourceSystem = 'wancom-backend';
+    this.sourceSystem = 'netaxis-backend';
   }
 
   async onModuleInit(): Promise<void> {

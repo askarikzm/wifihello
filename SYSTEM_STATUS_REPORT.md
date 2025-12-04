@@ -1,4 +1,4 @@
-# WANCOM Platform - System Status Report
+# NetAxis Platform - System Status Report
 **Generated:** November 30, 2025 at 17:57 UTC
 **Status:** ✅ **FULLY OPERATIONAL**
 
@@ -38,10 +38,10 @@
 - ✅ Frontend Response: 200 OK
 
 ### Public HTTPS Endpoints
-- ✅ Homepage: `https://wancom.linkservex.com` → 200 OK
-- ✅ Login Page: `https://wancom.linkservex.com/login` → 200 OK
-- ✅ Dashboard: `https://wancom.linkservex.com/dashboard` → 307 (Redirect to login - correct)
-- ✅ Admin Panel: `https://wancom.linkservex.com/admin` → 200 OK
+- ✅ Homepage: `https://netaxis.linkservex.com` → 200 OK
+- ✅ Login Page: `https://netaxis.linkservex.com/login` → 200 OK
+- ✅ Dashboard: `https://netaxis.linkservex.com/dashboard` → 307 (Redirect to login - correct)
+- ✅ Admin Panel: `https://netaxis.linkservex.com/admin` → 200 OK
 
 ### Admin API Endpoints (All Protected - 401 Auth Required)
 - ✅ `/api/admin/dashboard/revenue` → 401 ✓
@@ -127,9 +127,9 @@
 
 ```
 CONTAINER              STATUS              PORTS
-wancom_frontend_1      Up (healthy)        0.0.0.0:3100→3000
-wancom_backend_1       Up (healthy)        0.0.0.0:9000→9000
-wancom_network-service Restarting         (Non-critical)
+netaxis_frontend_1      Up (healthy)        0.0.0.0:3100→3000
+netaxis_backend_1       Up (healthy)        0.0.0.0:9000→9000
+netaxis_network-service Restarting         (Non-critical)
 ```
 
 **Note:** Network service restart is normal behavior, not affecting core functionality.
@@ -171,7 +171,7 @@ Run these scripts to track client activity:
 
 ```bash
 # Quick status check
-cd /var/www/wancom/scripts
+cd /var/www/netaxis/scripts
 ./quick-check.sh
 
 # Live activity monitor
@@ -205,7 +205,7 @@ When they test, they should be able to:
 1. Check live logs: `./watch-live.sh`
 2. Check their IP: Look for their ISP (PTCL Lahore: 119.152.232.80)
 3. Verify authentication: Check if they have admin role in database
-4. Review error logs: `docker logs wancom_backend_1 --tail 100`
+4. Review error logs: `docker logs netaxis_backend_1 --tail 100`
 
 ---
 

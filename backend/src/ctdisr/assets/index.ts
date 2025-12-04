@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Asset Management Module
+ * NetAxis ISP - CTDISR-2025 Asset Management Module
  */
 
 import { Module, forwardRef } from '@nestjs/common';

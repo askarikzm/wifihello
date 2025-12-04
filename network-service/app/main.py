@@ -40,7 +40,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="WANCOM Network Integration Service",
+    title="NetAxis Network Integration Service",
     description="Unified vendor-neutral OLT/ONU telemetry and actions for Huawei, ZTE, and FiberHome",
     version="0.2.0",
     docs_url="/docs",

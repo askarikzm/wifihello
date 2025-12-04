@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###############################################################################
-# WANCOM Access Tracking Script
+# NetAxis Access Tracking Script
 # Monitors visitor activity, logins, and API usage
 # Usage: ./track-access.sh [date]
 # Example: ./track-access.sh "30/Nov/2025"
@@ -9,8 +9,8 @@
 
 # Default to today's date
 DATE_FILTER="${1:-$(date +%d/%b/%Y)}"
-LOG_FILE="/var/log/nginx/wancom_access.log"
-LOG_FILE_OLD="/var/log/nginx/wancom_access.log.1"
+LOG_FILE="/var/log/nginx/netaxis_access.log"
+LOG_FILE_OLD="/var/log/nginx/netaxis_access.log.1"
 
 # Check which log file to use
 if grep -q "$DATE_FILTER" "$LOG_FILE" 2>/dev/null; then
@@ -23,7 +23,7 @@ else
 fi
 
 echo "╔═══════════════════════════════════════════════════════════════════╗"
-echo "║           WANCOM ACCESS REPORT - $DATE_FILTER                    "
+echo "║           NetAxis ACCESS REPORT - $DATE_FILTER                    "
 echo "╚═══════════════════════════════════════════════════════════════════╝"
 echo ""
 
@@ -98,10 +98,10 @@ done
 echo ""
 
 # Save summary to file
-REPORT_FILE="/var/www/wancom/logs/access-report-$(date +%Y%m%d-%H%M%S).txt"
-mkdir -p /var/www/wancom/logs
+REPORT_FILE="/var/www/netaxis/logs/access-report-$(date +%Y%m%d-%H%M%S).txt"
+mkdir -p /var/www/netaxis/logs
 cat > "$REPORT_FILE" << EOF
-WANCOM Access Report - $DATE_FILTER
+NetAxis Access Report - $DATE_FILTER
 Generated: $(date)
 
 Total Requests: $total_requests

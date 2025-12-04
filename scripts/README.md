@@ -1,6 +1,6 @@
-# WANCOM Access Tracking Scripts
+# NetAxis Access Tracking Scripts
 
-These scripts help you monitor visitor activity, logins, and API usage on your WANCOM ISP platform.
+These scripts help you monitor visitor activity, logins, and API usage on your NetAxis ISP platform.
 
 ## 📊 Available Scripts
 
@@ -8,7 +8,7 @@ These scripts help you monitor visitor activity, logins, and API usage on your W
 **Shows the last 30 minutes of activity at a glance**
 
 ```bash
-cd /var/www/wancom/scripts
+cd /var/www/netaxis/scripts
 ./quick-check.sh
 ```
 
@@ -19,7 +19,7 @@ cd /var/www/wancom/scripts
 - Dashboard access
 - Currently active authenticated users
 - Last 5 important events (login/dashboard/admin)
-- WANCOM customer status (119.152.232.80)
+- NetAxis customer status (119.152.232.80)
 
 **Best for:** Quick status check before/after client meetings
 
@@ -45,7 +45,7 @@ cd /var/www/wancom/scripts
 - Top 10 API endpoints by usage
 - Pakistani customers breakdown
 - Recent activity timeline
-- Saves report to `/var/www/wancom/logs/`
+- Saves report to `/var/www/netaxis/logs/`
 
 **Best for:** End-of-day analysis, client reporting
 
@@ -102,9 +102,9 @@ cat /tmp/daily-report.txt
 
 ## 📁 Log Files
 
-- **Current logs:** `/var/log/nginx/wancom_access.log`
-- **Rotated logs:** `/var/log/nginx/wancom_access.log.1`
-- **Reports saved to:** `/var/www/wancom/logs/access-report-*.txt`
+- **Current logs:** `/var/log/nginx/netaxis_access.log`
+- **Rotated logs:** `/var/log/nginx/netaxis_access.log.1`
+- **Reports saved to:** `/var/www/netaxis/logs/access-report-*.txt`
 
 ---
 
@@ -114,7 +114,7 @@ cat /tmp/daily-report.txt
 - **ISP:** PTCL (Pakistan Telecom)
 - **Location:** Lahore
 - **Network:** HSI Pool on Lahore BRAS-1
-- **Note:** This is your WANCOM customer/evaluator
+- **Note:** This is your NetAxis customer/evaluator
 
 ### Authentication Indicators
 - **Dashboard Access:** User is logged in ✓
@@ -134,22 +134,22 @@ cat /tmp/daily-report.txt
 1. **Set up a cron job for daily reports:**
    ```bash
    # Add to crontab
-   0 23 * * * /var/www/wancom/scripts/track-access.sh > /var/www/wancom/logs/daily-$(date +\%Y\%m\%d).txt
+   0 23 * * * /var/www/netaxis/scripts/track-access.sh > /var/www/netaxis/logs/daily-$(date +\%Y\%m\%d).txt
    ```
 
 2. **Quick customer check:**
    ```bash
-   ./quick-check.sh | grep "WANCOM CUSTOMER"
+   ./quick-check.sh | grep "NetAxis CUSTOMER"
    ```
 
 3. **Watch for specific IP:**
    ```bash
-   tail -f /var/log/nginx/wancom_access.log | grep "119.152.232.80"
+   tail -f /var/log/nginx/netaxis_access.log | grep "119.152.232.80"
    ```
 
 4. **Count today's logins:**
    ```bash
-   grep "$(date +%d/%b/%Y)" /var/log/nginx/wancom_access.log | grep "/dashboard" | wc -l
+   grep "$(date +%d/%b/%Y)" /var/log/nginx/netaxis_access.log | grep "/dashboard" | wc -l
    ```
 
 ---

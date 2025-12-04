@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Network Security Service
+ * NetAxis ISP - CTDISR-2025 Network Security Service
  */
 
 import { Injectable, Logger } from '@nestjs/common';

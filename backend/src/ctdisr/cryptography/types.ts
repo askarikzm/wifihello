@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Cryptography Types
+ * NetAxis ISP - CTDISR-2025 Cryptography Types
  */
 
 // ============================================

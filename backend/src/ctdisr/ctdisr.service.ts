@@ -1,5 +1,5 @@
 /**
- * WANCOM ISP - CTDISR-2025 Core Service
+ * NetAxis ISP - CTDISR-2025 Core Service
  * Handles policy evaluation, violation tracking, and compliance monitoring
  */
 
