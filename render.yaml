@@ -1,0 +1,62 @@
+services:
+  - type: web
+    name: netaxis-frontend
+    env: docker
+    dockerfilePath: frontend/Dockerfile
+    branch: main
+    plan: free
+    autoDeploy: true
+    buildCommand: |
+      cd frontend && npm ci && npm run build
+    startCommand: |
+      cd frontend && npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+  - type: web
+    name: netaxis-backend
+    env: docker
+    dockerfilePath: backend/Dockerfile
+    branch: main
+    plan: free
+    autoDeploy: true
+    buildCommand: |
+      cd backend && npm ci && npm run build
+    startCommand: |
+      cd backend && npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
+
+  - type: web
+    name: netaxis-network-service
+    env: docker
+    dockerfilePath: network-service/Dockerfile
+    branch: main
+    plan: free
+    autoDeploy: true
+    buildCommand: |
+      true
+    startCommand: |
+      uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PORT
+        value: "8000"
+
+  - type: web
+    name: netaxis-radius-service
+    env: docker
+    dockerfilePath: radius-service/Dockerfile
+    branch: main
+    plan: free
+    autoDeploy: true
+    buildCommand: |
+      true
+    startCommand: |
+      python -m app.main
+    envVars:
+      - key: PORT
+        value: "1812"
