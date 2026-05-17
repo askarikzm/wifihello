@@ -1,9 +1,9 @@
-FROM node:18-alpine AS builder
+FROM node:18-bullseye-slim AS builder
 WORKDIR /app
 
 # Install dependencies for frontend
 COPY frontend/package*.json ./frontend/
-RUN apk add --no-cache python3 make g++ || true
+RUN apt-get update && apt-get install -y python3 build-essential && rm -rf /var/lib/apt/lists/*
 RUN cd frontend && npm ci --silent
 
 # Copy frontend source and build
@@ -11,7 +11,7 @@ COPY frontend ./frontend
 WORKDIR /app/frontend
 RUN npm run build --silent
 
-FROM node:18-alpine AS runner
+FROM node:18-bullseye-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
