@@ -3,7 +3,7 @@ services:
     name: netaxis-frontend
     env: docker
     dockerfilePath: frontend/Dockerfile
-    branch: main
+    branch: deploy/render
     plan: free
     autoDeploy: true
     buildCommand: |
@@ -18,7 +18,7 @@ services:
     name: netaxis-backend
     env: docker
     dockerfilePath: backend/Dockerfile
-    branch: main
+    branch: deploy/render
     plan: free
     autoDeploy: true
     buildCommand: |
@@ -35,7 +35,7 @@ services:
     name: netaxis-network-service
     env: docker
     dockerfilePath: network-service/Dockerfile
-    branch: main
+    branch: deploy/render
     plan: free
     autoDeploy: true
     buildCommand: |
@@ -50,7 +50,7 @@ services:
     name: netaxis-radius-service
     env: docker
     dockerfilePath: radius-service/Dockerfile
-    branch: main
+    branch: deploy/render
     plan: free
     autoDeploy: true
     buildCommand: |
